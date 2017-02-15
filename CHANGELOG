@@ -1,0 +1,4 @@
+## V 0.0.1 - Initial State
+- Building initial dynamic structure of page
+- Hardcoded configuration file served by Spring Boot
+- Spring Boot serving configuration file on single endpoint
