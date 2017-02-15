@@ -13,5 +13,6 @@ The goals of the project are as follows:
 
 Future goals:
 - Allow configuration file to be edited from the web interface using account-based authentication
+- Store future versions of application releases within docker containers, available through this repository registry
 - Have multiple themes for the style of the page
 - Allow between multiple types of structures (ex. Card, Hero, etc.)
