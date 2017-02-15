@@ -19,7 +19,7 @@ public class LinksConfiguration {
      * Generic constructor
      */
     public LinksConfiguration() {
-        this.title = title;
+        this.title = "title";
     }
 
     /**
