@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ConfigurationController {
 
-    @RequestMapping
+    @RequestMapping("/config")
     public LinksConfiguration applyConfiguration() {
         return new LinksConfiguration();
     }
