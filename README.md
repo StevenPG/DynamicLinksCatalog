@@ -23,9 +23,3 @@ Additional labels for pre-release and build metadata are available as extensions
 - Use React's component based architecture to easily add child components dynamically
 - Use Spring Boot's 'magic' qualities to develop a simple server-side configuration service
 - Have a single configuration file editable within the source code to dynamically generate links page
-
-### Future goals:
-- Allow configuration file to be edited from the web interface using account-based authentication
-- Store future versions of application releases within docker containers, available through this repository registry
-- Have multiple themes for the style of the page
-- Allow between multiple types of structures (ex. Card, Hero, etc.)
