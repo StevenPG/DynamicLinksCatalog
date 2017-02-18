@@ -22,18 +22,18 @@ class CardList extends Component {
 		          <MuiThemeProvider>
 		            <Card>
 		                <CardHeader
-		                  title={currentCard['cardheader']}
-		                  subtitle={currentCard['headersubtitle']}
-		                  avatar={currentCard['avatar']}
+		                  title={currentCard['Header']}
+		                  subtitle={currentCard['HeaderSubtitle']}
+		                  avatar={currentCard['Image']}
 		                  actAsExpander={true}
 		                  showExpandableButton={true}
 		                />
 		                <CardActions>
-		                  <FlatButton label={currentCard['actions'][0]['buttontext']} />
-		                  <FlatButton label={currentCard['actions'][1]['buttontext']} />
+		                  <FlatButton label={currentCard['Buttons'][0]['buttontext']} />
+		                  <FlatButton label={currentCard['Buttons'][1]['buttontext']} />
 		                </CardActions>
 		                <CardText expandable={true}>
-		                  {currentCard['bodytext']}
+		                  {currentCard['ExpandedText']}
 		                </CardText>
 		              </Card>
 		          </MuiThemeProvider>

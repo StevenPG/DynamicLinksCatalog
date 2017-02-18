@@ -13,6 +13,10 @@ import FlatButton from 'material-ui/FlatButton';
 import CardList from './CardList'
 // End CardList
 
+// Settings options
+import TextField from 'material-ui/TextField';
+// End Settings options
+
 import './App.css';
 
 // Needed for onTouchTap
@@ -24,6 +28,9 @@ class App extends Component {
   state = {
     open: false,
     json: [],
+    jsonText: "",
+    SaveDisabled: false,
+    jsonerror: "",
   };
 
   // -- Refreshing the page --
@@ -37,6 +44,25 @@ class App extends Component {
     this.setState({open: true});
   };
 
+  handleSave = () => {
+    this.setState({json: JSON.parse(this.state.jsonText)})
+    this.handleClose();
+  }
+
+  onConfigChange = (e) => {
+  try {
+    JSON.parse(e.target.value);
+  } catch (err) {
+    this.setState({SaveDisabled: true})
+    this.setState({jsonerror: "Invalid JSON..."})
+    return;
+  }
+
+    this.setState({jsonText: e.target.value})
+    this.setState({jsonerror: ""})
+    this.setState({SaveDisabled: false})
+  }
+
   handleClose = () => {
     this.setState({open: false});
   };
@@ -45,83 +71,29 @@ class App extends Component {
   // Run when component is rendering
   // Retrieve JSON info for current and child components
   componentWillMount() {
-    var json = {
-      "config": {
-        "pagetitle" : "title",
-        "cards" : [
-          {
-            "cardheader" : "FirstHeader",
-            "headersubtitle" : "FirstHeaderSubtitle",
-            "bodytext" : "FirstTextBody",
-            "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
-            "actions" : [
-                {
-                  "buttontext" : "FirstButtonText",
-                  "url" : "url"
-                },
-                {
-                  "buttontext" : "SecondButtonText",
-                  "url" : "url"
-                }
-              ]
-          },
-          {
-            "cardheader" : "SecondHeader",
-            "headersubtitle" : "SecondHeaderSubtitle",
-            "bodytext" : "SecondTextBody",
-            "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
-            "actions" : [
-                {
-                  "buttontext" : "FirstButtonText",
-                  "url" : "url"
-                },
-                {
-                  "buttontext" : "SecondButtonText",
-                  "url" : "url"
-                }
-              ]
-          }
-          ]
-      }
-    }
     this.setState({
       json: {
         "config": {
-          "pagetitle" : "title",
+          "DirectoryTitle" : "TemporaryDirectoryTitle",
+          "DirectoryHexColor" : "#EA5D5E",
           "cards" : [
             {
-              "cardheader" : "FirstHeader",
-              "headersubtitle" : "FirstHeaderSubtitle",
-              "bodytext" : "FirstTextBody",
-              "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
-              "actions" : [
+              "Header" : "FirstHeader",
+              "HeaderSubtitle" : "FirstHeaderSubtitle",
+              "ExpandedText" : "FirstTextBody",
+              "Image" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
+              "Buttons" : [
                   {
                     "buttontext" : "FirstButtonText",
-                    "url" : "url"
+                    "linkURL" : "url"
                   },
                   {
                     "buttontext" : "SecondButtonText",
-                    "url" : "url"
-                  }
-                ]
-            },
-            {
-              "cardheader" : "SecondHeader",
-              "headersubtitle" : "SecondHeaderSubtitle",
-              "bodytext" : "SecondTextBody",
-              "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
-              "actions" : [
-                  {
-                    "buttontext" : "FirstButtonText",
-                    "url" : "url"
-                  },
-                  {
-                    "buttontext" : "SecondButtonTextTest",
-                    "url" : "url"
+                    "linkURL" : "url"
                   }
                 ]
             }
-            ]
+          ]
         }
       }
     });
@@ -134,13 +106,14 @@ class App extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
+        keyboardFocused={true}
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Save"
         primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        disabled={this.state.SaveDisabled}
+        onTouchTap={this.handleSave}
       />,
     ];
 
@@ -149,20 +122,31 @@ class App extends Component {
         <div className="App">
           <MuiThemeProvider>
             <AppBar
-            title="Title"
-            style={{backgroundColor: '#EA5D5E'}}
-            iconElementLeft={<IconButton><NavigationRefresh /></IconButton>}
+            title={this.state.json['config']['DirectoryTitle']}
+            style={{backgroundColor: this.state.json['config']['DirectoryHexColor']}}
+            iconElementLeft={<IconButton onTouchTap={this.handleRefresh}><NavigationRefresh /></IconButton>}
             iconElementRight={<FlatButton label="Settings" onTouchTap={this.handleOpen}/>}
             />
           </MuiThemeProvider>
+        </div>
+        <div>
           <MuiThemeProvider>
             <Dialog
-              title="Application Settings"
+              title="Application Configuration"
               actions={actions}
               modal={false}
               open={this.state.open}
+              contentStyle={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}
+              repositionOnUpdate={ false }
               onRequestClose={this.handleClose}>
-              This Modal will soon contain the application settings, along with simple authentication.
+                <TextField
+                id="jsonconfig"
+                multiLine={true}
+                onChange={this.onConfigChange}
+                fullWidth={true}
+                errorText={this.state.jsonerror}
+                defaultValue={JSON.stringify(this.state.json, null , "\t")}
+              /><br />
             </Dialog>
           </MuiThemeProvider>
         </div>
