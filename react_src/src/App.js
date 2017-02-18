@@ -42,6 +42,9 @@ class App extends Component {
   // -- Settings functions --
   handleOpen = () => {
     this.setState({open: true});
+
+    // Disable save button unless something changes (in settings)
+    this.setState({SaveDisabled: true})
   };
 
   handleSave = () => {
@@ -57,7 +60,6 @@ class App extends Component {
     this.setState({jsonerror: "Invalid JSON..."})
     return;
   }
-
     this.setState({jsonText: e.target.value})
     this.setState({jsonerror: ""})
     this.setState({SaveDisabled: false})
