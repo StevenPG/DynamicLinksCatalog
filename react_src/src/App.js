@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 
-// Top bar
+// Top Bar
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import IconButton from 'material-ui/IconButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
-
-// Individual cards
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+// End Top Bar
+
+// CardList
+import CardList from './CardList'
+// End CardList
 
 import './App.css';
 
@@ -21,15 +23,16 @@ class App extends Component {
 
   state = {
     open: false,
+    json: [],
   };
 
-  // Refreshing the page
+  // -- Refreshing the page --
   handleRefresh = () => {
     this.forceUpdate();
   }
-  // End refresh method
+  // -- End refresh method --
 
-  // Settings functions
+  // -- Settings functions --
   handleOpen = () => {
     this.setState({open: true});
   };
@@ -37,15 +40,117 @@ class App extends Component {
   handleClose = () => {
     this.setState({open: false});
   };
-  // End Settings functions
+  // -- End Settings functions --
+
+  // Run when component is rendering
+  // Retrieve JSON info for current and child components
+  componentWillMount() {
+    var json = {
+      "config": {
+        "pagetitle" : "title",
+        "cards" : [
+          {
+            "cardheader" : "FirstHeader",
+            "headersubtitle" : "FirstHeaderSubtitle",
+            "bodytext" : "FirstTextBody",
+            "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
+            "actions" : [
+                {
+                  "buttontext" : "FirstButtonText",
+                  "url" : "url"
+                },
+                {
+                  "buttontext" : "SecondButtonText",
+                  "url" : "url"
+                }
+              ]
+          },
+          {
+            "cardheader" : "SecondHeader",
+            "headersubtitle" : "SecondHeaderSubtitle",
+            "bodytext" : "SecondTextBody",
+            "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
+            "actions" : [
+                {
+                  "buttontext" : "FirstButtonText",
+                  "url" : "url"
+                },
+                {
+                  "buttontext" : "SecondButtonText",
+                  "url" : "url"
+                }
+              ]
+          }
+          ]
+      }
+    }
+    this.setState({
+      json: {
+        "config": {
+          "pagetitle" : "title",
+          "cards" : [
+            {
+              "cardheader" : "FirstHeader",
+              "headersubtitle" : "FirstHeaderSubtitle",
+              "bodytext" : "FirstTextBody",
+              "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
+              "actions" : [
+                  {
+                    "buttontext" : "FirstButtonText",
+                    "url" : "url"
+                  },
+                  {
+                    "buttontext" : "SecondButtonText",
+                    "url" : "url"
+                  }
+                ]
+            },
+            {
+              "cardheader" : "SecondHeader",
+              "headersubtitle" : "SecondHeaderSubtitle",
+              "bodytext" : "SecondTextBody",
+              "avatar" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
+              "actions" : [
+                  {
+                    "buttontext" : "FirstButtonText",
+                    "url" : "url"
+                  },
+                  {
+                    "buttontext" : "SecondButtonTextTest",
+                    "url" : "url"
+                  }
+                ]
+            }
+            ]
+        }
+      }
+    });
+  }
 
   render() {
+
+    // Dialog actions externalized
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Save"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleClose}
+      />,
+    ];
+
     return (
       <div>
         <div className="App">
           <MuiThemeProvider>
             <AppBar
             title="Title"
+            style={{backgroundColor: '#EA5D5E'}}
             iconElementLeft={<IconButton><NavigationRefresh /></IconButton>}
             iconElementRight={<FlatButton label="Settings" onTouchTap={this.handleOpen}/>}
             />
@@ -53,7 +158,7 @@ class App extends Component {
           <MuiThemeProvider>
             <Dialog
               title="Application Settings"
-              actions={ <FlatButton label="Cancel" primary={true} onTouchTap={this.handleClose} />}
+              actions={actions}
               modal={false}
               open={this.state.open}
               onRequestClose={this.handleClose}>
@@ -61,28 +166,8 @@ class App extends Component {
             </Dialog>
           </MuiThemeProvider>
         </div>
-        <div className="Card">
-          <MuiThemeProvider>
-            <Card>
-                <CardHeader
-                  title="Title"
-                  subtitle="Subtitle"
-                  avatar="http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png"
-                  actAsExpander={true}
-                  showExpandableButton={true}
-                />
-                <CardActions>
-                  <FlatButton label="Action1" />
-                  <FlatButton label="Action2" />
-                </CardActions>
-                <CardText expandable={true}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                  Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                  Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                </CardText>
-              </Card>
-          </MuiThemeProvider>
+        <div className="CardList">
+          <CardList data={this.state.json}/>
         </div>
       </div>
     );
