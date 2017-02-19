@@ -4,7 +4,7 @@
 
     <groupId>com.stevengantz</groupId>
     <artifactId>DynamicLinksCatalog</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -15,7 +15,7 @@
     <scm>
 	    <connection>scm:git:https://gitlab.com/StevenPG/DynamicLinksCatalog</connection>
 	    <developerConnection>scm:git:https://gitlab.com/StevenPG/DynamicLinksCatalog</developerConnection>
-	    <tag>DynamicLinksCatalog-1.0.0-RELEASE</tag>
+	    <tag>v{project.version}</tag>
 	    <url>https://gitlab.com/StevenPG/DynamicLinksCatalog</url>
   	</scm>
 
