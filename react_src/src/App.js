@@ -86,7 +86,7 @@ class App extends Component {
         "config": {
           "DirectoryTitle" : "ExampleTitle",
           "DirectoryHexColor" : "#000000",
-          "PageBackgroundURL" : "/img/studioset.jpg",
+          "PageBackgroundURL" : "/img/default_background.jpg",
           "cards" : [
             {
               "Header" : "ExampleHeader",
