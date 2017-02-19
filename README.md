@@ -1,5 +1,4 @@
 # Dynamic Links Catalog
-## V 0.0.1
 
 This project arose from the subtle need to have a directory-listing of available services on my home server. I wasn't able to find another project where it was easy to have a good looking, and good functioning list of items, that was easily updateable.
 
