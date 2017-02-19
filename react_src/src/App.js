@@ -70,27 +70,36 @@ class App extends Component {
   };
   // -- End Settings functions --
 
+  // Callback for data setState
+  configureViaJSON = () => {
+  	var backgroundURL = this.state.json['config']['PageBackgroundURL'];
+    document.body.style.background = 'url(' + backgroundURL + ') no-repeat center center fixed';
+    document.body.style.background = 'cover';
+  }
+  // End Callback
+
   // Run when component is rendering
   // Retrieve JSON info for current and child components
   componentWillMount() {
     this.setState({
       json: {
         "config": {
-          "DirectoryTitle" : "TemporaryDirectoryTitle",
-          "DirectoryHexColor" : "#EA5D5E",
+          "DirectoryTitle" : "ExampleTitle",
+          "DirectoryHexColor" : "#000000",
+          "PageBackgroundURL" : "/img/studioset.jpg",
           "cards" : [
             {
-              "Header" : "FirstHeader",
-              "HeaderSubtitle" : "FirstHeaderSubtitle",
-              "ExpandedText" : "FirstTextBody",
-              "Image" : "http://fresnostate.edu/webresources/images/128x128/128x128-youtube.png",
+              "Header" : "ExampleHeader",
+              "HeaderSubtitle" : "ExampleSubtitle",
+              "ExpandedText" : "ExampleTextBody",
+              "Image" : "https://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg",
               "Buttons" : [
                   {
-                    "buttontext" : "FirstButtonText",
+                    "buttontext" : "ExampleButtonText",
                     "linkURL" : "url"
                   },
                   {
-                    "buttontext" : "SecondButtonText",
+                    "buttontext" : "ExampleButtonText2",
                     "linkURL" : "url"
                   }
                 ]
@@ -98,7 +107,7 @@ class App extends Component {
           ]
         }
       }
-    });
+    }, this.configureViaJSON);
   }
 
   render() {
