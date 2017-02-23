@@ -67,6 +67,7 @@ class App extends Component {
 
   handleClose = () => {
     this.setState({open: false});
+    this.setState({jsonerror: ""})
   };
   // -- End Settings functions --
 

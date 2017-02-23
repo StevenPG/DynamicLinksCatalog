@@ -1,7 +1,5 @@
-V 0.0.1 - Initial State
-- Building initial dynamic structure of page
-- Hardcoded configuration file served by Spring Boot
-- Spring Boot serving configuration file on single endpoint
+V 1.0.1 - Bug fixes
+- Fixed bug where JSON error persists when cancelling a configuration change
 
 V 1.0.0 - Base Release
 - JSON editing with basic validation through Settings option
@@ -9,3 +7,8 @@ V 1.0.0 - Base Release
 - Initial JSON configuration is hardcoded within React
 - Service restart requires reconfiguration
 	- Recommend backup of settings file before restarting service
+
+V 0.0.1 - Initial State
+- Building initial dynamic structure of page
+- Hardcoded configuration file served by Spring Boot
+- Spring Boot serving configuration file on single endpoint
