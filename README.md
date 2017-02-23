@@ -1,8 +1,8 @@
 # Dynamic Links Catalog
 
-This project arose from the subtle need to have a directory-listing of available services on my home server. I wasn't able to find another project where it was easy to have a good looking, and good functioning list of items, that was easily updateable.
+There are very few configurable catalog solutions that allow for storage and easy access to links as open source projects. I decided to build this for personal use, but also to expand in the future. This application should allow anyone to build a landing page where they can easily host links and descriptions for them in a straightforward and easy to digest fashion.
 
-This project intends to create a simpler, more efficient way to create an interactive list of services and documents using a single configuration file.
+Overall, this project intends to create a simpler, more efficient way to create an interactive list of services and documents using a single configuration file.
 
 ### This project follows the guidelines laid out in Semantic Versioning 2.0.0
 http://semver.org/

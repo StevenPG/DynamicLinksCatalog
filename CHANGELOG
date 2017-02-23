@@ -1,3 +1,6 @@
+V 1.1.1 - Information Addition
+- Added footer with credit to repository and me, just for kicks
+
 V 1.0.1 - Bug fixes
 - Fixed bug where JSON error persists when cancelling a configuration change
 

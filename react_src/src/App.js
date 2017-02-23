@@ -166,6 +166,9 @@ class App extends Component {
         <div className="CardList">
           <CardList data={this.state.json}/>
         </div>
+        <div className="footer">
+          <p>DynamicLinksCatalog V1.1.1; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+        </div>
       </div>
     );
   }

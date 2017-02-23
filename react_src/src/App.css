@@ -13,4 +13,15 @@
 .footer {
   width: 70%;
   margin: 0 auto;
+  color: white;
+  text-align: center;
+  font-size: 70%;
+}
+
+a:link {
+	color: white;
+}
+
+a:visited {
+	color: white;
 }
