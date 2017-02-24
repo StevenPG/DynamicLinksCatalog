@@ -1,3 +1,7 @@
+V 1.1.2 - Bug fix
+- Fixed small bug where background wasn't updating correctly when set to a valid URL
+- Fixed react issue where state was being manipulated directly rather than asynchronously, causing occasional stack overflow when saving configs
+
 V 1.1.1 - Information Addition
 - Added footer with credit to repository and me, just for kicks
 

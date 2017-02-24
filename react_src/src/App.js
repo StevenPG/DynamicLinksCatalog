@@ -11,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 // CardList
 import CardList from './CardList'
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 // End CardList
 
 // Settings options
@@ -48,7 +49,7 @@ class App extends Component {
   };
 
   handleSave = () => {
-    this.setState({json: JSON.parse(this.state.jsonText)})
+    this.setState({json: JSON.parse(this.state.jsonText)}, this.configureViaJSON);
     this.handleClose();
   }
 
@@ -70,6 +71,40 @@ class App extends Component {
     this.setState({jsonerror: ""})
   };
   // -- End Settings functions --
+
+  // Function builds cardlist directly
+  buildCardArray = () => {
+		// Build the array of cards with the card as input
+		var tmpCardArray = [];
+		for(var i = 0; i < this.state.json['config']['cards'].length; i++){
+			var currentCard = this.state.json['config']['cards'][i];
+			//this.state.cardArray.push(
+			tmpCardArray.push(
+				<div className="Card" key={i}>
+		          <MuiThemeProvider>
+		            <Card>
+		                <CardHeader
+		                  title={currentCard['Header']}
+		                  subtitle={currentCard['HeaderSubtitle']}
+		                  avatar={currentCard['Image']}
+		                  actAsExpander={true}
+		                  showExpandableButton={true}
+		                />
+		                <CardActions>
+		                  <FlatButton label={currentCard['Buttons'][0]['buttontext']} />
+		                  <FlatButton label={currentCard['Buttons'][1]['buttontext']} />
+		                </CardActions>
+		                <CardText expandable={true}>
+		                  {currentCard['ExpandedText']}
+		                </CardText>
+		              </Card>
+		          </MuiThemeProvider>
+		        </div>
+			);
+		}
+		return tmpCardArray;
+	}
+	// End cardlist build function
 
   // Callback for data setState
   configureViaJSON = () => {
@@ -164,10 +199,10 @@ class App extends Component {
           </MuiThemeProvider>
         </div>
         <div className="CardList">
-          <CardList data={this.state.json}/>
+          <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.1.1; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.1.2; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );
