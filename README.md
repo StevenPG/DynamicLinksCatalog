@@ -4,6 +4,13 @@ There are very few configurable catalog solutions that allow for storage and eas
 
 Overall, this project intends to create a simpler, more efficient way to create an interactive list of services and documents using a single configuration file.
 
+### Run
+This is a standard Spring Boot project, using embedded tomcat and a runnable jar.
+
+Port can be set by using the following run command: 
+
+    java -Dserver.port=xxxx -jar DynamicLinksCatalog-X.X.X.jar
+
 ### This project follows the guidelines laid out in Semantic Versioning 2.0.0
 http://semver.org/
 Given a version number MAJOR.MINOR.PATCH, increment the:
