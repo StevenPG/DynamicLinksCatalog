@@ -41,7 +41,7 @@ class App extends Component {
   // -- Refreshing the page --
   handleRefresh = () => {
   	var that = this;
-  	axios.get('/config')
+  	axios.get(window.location.href + 'config')
   	.then(function(response) {
   		console.log(response['data']);
   		that.setState({json: response['data']}, that.configureViaJSON);
@@ -63,7 +63,7 @@ class App extends Component {
 
   handleSave = () => {
     this.setState({json: JSON.parse(this.state.jsonText)}, this.configureViaJSON);
-    axios.post('/config', JSON.parse(this.state.jsonText))
+    axios.post(window.location.href + 'config', JSON.parse(this.state.jsonText))
 	  .then(function (response) {
 	    console.log(response);
 	  })

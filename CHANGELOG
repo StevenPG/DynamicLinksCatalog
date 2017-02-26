@@ -1,3 +1,6 @@
+V 1.2.3 - Bug fix
+- Fixed error was occuring that caused the API requests to access the wrong location
+
 V 1.2.2 - Server persistence
 - Configurations are now saved on the server and only overridden when invalid
 - Configurations will not persist between application restarts
