@@ -1,4 +1,4 @@
-package com.stevengantz;
+package com.stevengantz.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * Set executable as embedded tomcat
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"com.stevengantz.json","com.stevengantz.config","com.stevengantz.springboot"})
 public class DynamicLinksCatalog {
     public static void main(String[] args){
         SpringApplication.run(DynamicLinksCatalog.class);

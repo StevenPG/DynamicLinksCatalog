@@ -1,3 +1,8 @@
+V 1.2.2 - Server persistence
+- Configurations are now saved on the server and only overridden when invalid
+- Configurations will not persist between application restarts
+- Configuration will reset if invalid JSON makes its way to the server (able to pass client check)
+
 V 1.1.2 - Bug fix
 - Fixed small bug where background wasn't updating correctly when set to a valid URL
 - Fixed react issue where state was being manipulated directly rather than asynchronously, causing occasional stack overflow when saving configs

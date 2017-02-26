@@ -18,6 +18,10 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 // End Settings options
 
+// HTTP library
+import axios from 'axios';
+// End HTTP library
+
 import './App.css';
 
 // Needed for onTouchTap
@@ -36,6 +40,15 @@ class App extends Component {
 
   // -- Refreshing the page --
   handleRefresh = () => {
+  	var that = this;
+  	axios.get('/config')
+  	.then(function(response) {
+  		console.log(response['data']);
+  		that.setState({json: response['data']}, that.configureViaJSON);
+  	})
+  	.catch(function(error) {
+  		console.log(error);
+  	});
     this.forceUpdate();
   }
   // -- End refresh method --
@@ -50,6 +63,13 @@ class App extends Component {
 
   handleSave = () => {
     this.setState({json: JSON.parse(this.state.jsonText)}, this.configureViaJSON);
+    axios.post('/config', JSON.parse(this.state.jsonText))
+	  .then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	});
     this.handleClose();
   }
 
@@ -114,29 +134,32 @@ class App extends Component {
   }
   // End Callback
 
-  // Run when component is rendering
+
+
+  // Run when component is first rendering
   // Retrieve JSON info for current and child components
   componentWillMount() {
+  	console.log("Setting Initial View State")
     this.setState({
       json: {
         "config": {
-          "DirectoryTitle" : "ExampleTitle",
-          "DirectoryHexColor" : "#000000",
-          "PageBackgroundURL" : "/img/default_background.jpg",
+          "DirectoryTitle" : "",
+          "DirectoryHexColor" : "",
+          "PageBackgroundURL" : "",
           "cards" : [
             {
-              "Header" : "ExampleHeader",
-              "HeaderSubtitle" : "ExampleSubtitle",
-              "ExpandedText" : "ExampleTextBody",
-              "Image" : "https://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg",
+              "Header" : "",
+              "HeaderSubtitle" : "",
+              "ExpandedText" : "",
+              "Image" : "",
               "Buttons" : [
                   {
-                    "buttontext" : "ExampleButtonText",
-                    "linkURL" : "url"
+                    "buttontext" : "",
+                    "linkURL" : ""
                   },
                   {
-                    "buttontext" : "ExampleButtonText2",
-                    "linkURL" : "url"
+                    "buttontext" : "",
+                    "linkURL" : ""
                   }
                 ]
             }
@@ -144,6 +167,16 @@ class App extends Component {
         }
       }
     }, this.configureViaJSON);
+
+    var that = this;
+  	axios.get('http://localhost:8080/config')
+  	.then(function(response) {
+  		console.log(response['data']);
+  		that.setState({json: response['data']}, that.configureViaJSON);
+  	})
+  	.catch(function(error) {
+  		console.log(error);
+  	});
   }
 
   render() {
@@ -202,7 +235,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.1.2; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.2.2; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );
