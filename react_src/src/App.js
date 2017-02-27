@@ -169,7 +169,7 @@ class App extends Component {
     }, this.configureViaJSON);
 
     var that = this;
-  	axios.get('http://localhost:8080/config')
+  	axios.get(window.location.href + 'config')
   	.then(function(response) {
   		console.log(response['data']);
   		that.setState({json: response['data']}, that.configureViaJSON);

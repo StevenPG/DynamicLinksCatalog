@@ -1,4 +1,4 @@
-V 1.2.3 - Bug fix
+V 1.2.4 - Bug fix
 - Fixed error was occuring that caused the API requests to access the wrong location
 
 V 1.2.2 - Server persistence
