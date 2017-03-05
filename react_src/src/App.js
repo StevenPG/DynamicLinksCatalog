@@ -235,7 +235,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.2.6; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.2.7; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );
