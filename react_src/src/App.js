@@ -43,7 +43,6 @@ class App extends Component {
   	var that = this;
   	axios.get(window.location.href + 'config')
   	.then(function(response) {
-  		console.log(response['data']);
   		that.setState({json: response['data']}, that.configureViaJSON);
   	})
   	.catch(function(error) {
@@ -64,9 +63,6 @@ class App extends Component {
   handleSave = () => {
     this.setState({json: JSON.parse(this.state.jsonText)}, this.configureViaJSON);
     axios.post(window.location.href + 'config', JSON.parse(this.state.jsonText))
-	  .then(function (response) {
-	    console.log(response);
-	  })
 	  .catch(function (error) {
 	    console.log(error);
 	});
@@ -145,7 +141,6 @@ class App extends Component {
   // Run when component is first rendering
   // Retrieve JSON info for current and child components
   componentWillMount() {
-  	console.log("Setting Initial View State")
     this.setState({
       json: {
         "config": {
@@ -177,7 +172,6 @@ class App extends Component {
     var that = this;
   	axios.get(window.location.href + 'config')
   	.then(function(response) {
-  		console.log(response['data']);
   		that.setState({json: response['data']}, that.configureViaJSON);
   	})
   	.catch(function(error) {
@@ -241,7 +235,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.2.5; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.2.6; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );

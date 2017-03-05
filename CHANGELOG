@@ -1,3 +1,6 @@
+V 1.2.6 - Bug fix
+- Removed all remaining console output during standard no-error run
+
 V 1.2.5 - Bug fix
 - Removed default url of 'url' and fixed buttons not sending client to url
 
