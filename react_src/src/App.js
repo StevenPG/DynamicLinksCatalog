@@ -9,6 +9,10 @@ import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import FlatButton from 'material-ui/FlatButton';
 // End Top Bar
 
+// Loading bar
+import LinearProgress from 'material-ui/LinearProgress';
+// End Loading bar
+
 // CardList
 import CardList from './CardList'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -36,11 +40,13 @@ class App extends Component {
     jsonText: "",
     SaveDisabled: false,
     jsonerror: "",
+    loading: false,
   };
 
   // -- Refreshing the page --
   handleRefresh = () => {
   	var that = this;
+  	this.setState({loading: true})
   	axios.get(window.location.href + 'config')
   	.then(function(response) {
   		that.setState({json: response['data']}, that.configureViaJSON);
@@ -49,6 +55,7 @@ class App extends Component {
   		console.log(error);
   	});
     this.forceUpdate();
+    this.setState({loading: false})
   }
   // -- End refresh method --
 
@@ -61,30 +68,34 @@ class App extends Component {
   };
 
   handleSave = () => {
+  	this.setState({loading: true})
     this.setState({json: JSON.parse(this.state.jsonText)}, this.configureViaJSON);
     axios.post(window.location.href + 'config', JSON.parse(this.state.jsonText))
 	  .catch(function (error) {
 	    console.log(error);
 	});
+	this.setState({loading: false})
     this.handleClose();
   }
 
   onConfigChange = (e) => {
-  try {
-    JSON.parse(e.target.value);
-  } catch (err) {
-    this.setState({SaveDisabled: true})
-    this.setState({jsonerror: "Invalid JSON..."})
-    return;
-  }
-    this.setState({jsonText: e.target.value})
-    this.setState({jsonerror: ""})
-    this.setState({SaveDisabled: false})
+	  this.setState({loading: true})
+	  try {
+	    JSON.parse(e.target.value);
+	  } catch (err) {
+		    this.setState({SaveDisabled: true})
+		    this.setState({jsonerror: "Invalid JSON..."})
+		    return;
+	  }
+	  this.setState({jsonText: e.target.value})
+	  this.setState({jsonerror: ""})
+	  this.setState({SaveDisabled: false})
+	  this.setState({loading: false})
   }
 
   handleClose = () => {
-    this.setState({open: false});
-    this.setState({jsonerror: ""})
+	    this.setState({open: false});
+	    this.setState({jsonerror: ""})
   };
   // -- End Settings functions --
 
@@ -201,12 +212,15 @@ class App extends Component {
       <div>
         <div className="App">
           <MuiThemeProvider>
-            <AppBar
-            title={this.state.json['config']['DirectoryTitle']}
-            style={{backgroundColor: this.state.json['config']['DirectoryHexColor']}}
-            iconElementLeft={<IconButton onTouchTap={this.handleRefresh}><NavigationRefresh /></IconButton>}
-            iconElementRight={<FlatButton label="Settings" onTouchTap={this.handleOpen}/>}
-            />
+	            <AppBar
+	            title={this.state.json['config']['DirectoryTitle']}
+	            style={{backgroundColor: this.state.json['config']['DirectoryHexColor']}}
+	            iconElementLeft={<IconButton onTouchTap={this.handleRefresh}><NavigationRefresh /></IconButton>}
+	            iconElementRight={<FlatButton label="Settings" onTouchTap={this.handleOpen}/>}
+	            />
+            </MuiThemeProvider>
+            <MuiThemeProvider>
+            	{ this.state.loading ? <LinearProgress mode="indeterminate" /> : null }
           </MuiThemeProvider>
         </div>
         <div>

@@ -1,6 +1,7 @@
 V 1.2.7 - Feature Add and Bug fix
 - Added error handling for spring boot /error that maps directly back to /
-
+- Adding loading element when React http calls occur take some time
+	- Loading element rarely appears due to speed of network calls
 
 V 1.2.6 - Bug fix
 - Removed all remaining console output during standard no-error run
