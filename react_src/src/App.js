@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+// Manipulate HTML Head Information
+import Helmet from "react-helmet";
+// End Manipulate HTML Head Information
+
 // Top Bar
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -155,6 +159,8 @@ class App extends Component {
     this.setState({
       json: {
         "config": {
+          "PageTitle": "Dynamic Links Catalog",
+          "PageFavicon": "https://pbs.twimg.com/profile_images/571295883073843200/OerZFKD_.png",
           "DirectoryTitle" : "",
           "DirectoryHexColor" : "",
           "PageBackgroundURL" : "",
@@ -207,9 +213,23 @@ class App extends Component {
         onTouchTap={this.handleSave}
       />,
     ];
+    
+    var currentFavicon = this.state.json['config']['PageFavicon'];
 
     return (
       <div>
+      	<Helmet
+      		title={this.state.json['config']['PageTitle']}
+      		link={
+      			[
+      				{
+      					rel: 'icon', 
+      					type: 'image/png', 
+      					href: currentFavicon,
+      				},
+      			]
+      		}
+      	/>
         <div className="App">
           <MuiThemeProvider>
 	            <AppBar

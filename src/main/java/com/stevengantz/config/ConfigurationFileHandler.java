@@ -53,6 +53,8 @@ public class ConfigurationFileHandler {
      */
     private final String defaultFileContent = "{" + 
     "\"config\": {" + 
+    	"\"PageTitle\": \"Dynamic Links Catalog\"," +
+    	"\"PageFavicon\": \"https://pbs.twimg.com/profile_images/571295883073843200/OerZFKD_.png\"," +
 		"\"DirectoryTitle\": \"ExampleTitle\"," + 
 		"\"DirectoryHexColor\": \"#000000\"," + 
 		"\"PageBackgroundURL\": \"/img/default_background.jpg\"," + 
