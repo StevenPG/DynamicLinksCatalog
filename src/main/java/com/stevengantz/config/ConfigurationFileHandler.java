@@ -63,10 +63,10 @@ public class ConfigurationFileHandler {
 			"\"Image\": \"https://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg\"," + 
 			"\"Buttons\": [{" + 
 				"\"buttontext\": \"ExampleButtonText\"," + 
-				"\"linkURL\": \"url\"" + 
+				"\"linkURL\": \"\"" + 
 					"}, {" + 
 					"\"buttontext\": \"ExampleButtonText2\"," + 
-					"\"linkURL\": \"url\"" + 
+					"\"linkURL\": \"\"" + 
 						"}]" + 
 						"}]" +
 						"}" + 

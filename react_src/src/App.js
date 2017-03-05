@@ -111,8 +111,14 @@ class App extends Component {
 		                  showExpandableButton={true}
 		                />
 		                <CardActions>
-		                  <FlatButton label={currentCard['Buttons'][0]['buttontext']} />
-		                  <FlatButton label={currentCard['Buttons'][1]['buttontext']} />
+		                  <FlatButton 
+		                  	label={currentCard['Buttons'][0]['buttontext']} 
+		                  	href={currentCard['Buttons'][0]['linkURL']}
+		                  	/>
+		                  <FlatButton 
+		                  	label={currentCard['Buttons'][1]['buttontext']} 
+		                  	href={currentCard['Buttons'][1]['linkURL']}
+		                  	/>
 		                </CardActions>
 		                <CardText expandable={true}>
 		                  {currentCard['ExpandedText']}
@@ -235,7 +241,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.2.2; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.2.5; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );

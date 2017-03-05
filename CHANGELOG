@@ -1,3 +1,6 @@
+V 1.2.5 - Bug fix
+- Removed default url of 'url' and fixed buttons not sending client to url
+
 V 1.2.4 - Bug fix
 - Fixed error was occuring that caused the API requests to access the wrong location
 
