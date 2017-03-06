@@ -26,7 +26,7 @@ public class ConfigurationFileHandler {
 	 * Abstract path minus current directory the
 	 * configuration file will live
 	 */
-	protected String directory = ".config";
+	protected String directory = "dynamiclinks/config";
 	
 	/**
 	 * Name of configuration file

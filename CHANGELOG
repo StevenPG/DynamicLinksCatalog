@@ -4,6 +4,10 @@ V 1.2.7 - Feature Add and Bug fix
 	- Loading element rarely appears due to speed of network calls
 - Added ability to configure HTML page title element
 - Added ability to set URL for favicon to dynamically update
+- Added external writing into log file
+	- Added recording mechanisms in logs for easy retrieval
+- Built proper directory structure inside application folder deployed with jar
+	- Directory can be volumed out when used within docker
 
 V 1.2.6 - Bug fix
 - Removed all remaining console output during standard no-error run
