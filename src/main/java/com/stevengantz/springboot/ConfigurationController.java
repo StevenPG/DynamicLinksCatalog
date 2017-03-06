@@ -2,6 +2,8 @@ package com.stevengantz.springboot;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +48,9 @@ public class ConfigurationController {
 	 */
 	 @CrossOrigin(origins = "*")
     @RequestMapping(value = "/config", method = RequestMethod.GET)
-    public ResponseEntity<String> getConfig() {
+    public ResponseEntity<String> getConfig(HttpServletRequest request) {
         try {
+        	logger.info("Client retrieved configuration from " + request.getRemoteAddr() + " using " + request.getHeader("user-agent"));
 			return new ResponseEntity<String>(new ConfigurationFileHandler().getConfigurationFileAsString(), HttpStatus.OK);
 		} catch (IOException e) {
 			logger.error("Configuration file wasn't found or couldn't be written to..." + "[" + className + "]");
