@@ -55,9 +55,12 @@ class App extends Component {
   	.then(function(response) {
   		that.setState({json: response['data']}, that.configureViaJSON);
   	})
-  	.catch(function(error) {
-  		console.log(error);
-  	});
+  	.catch((error) => {
+	    console.log(error.message);
+	    console.log(error.code); // Not always specified
+	    console.log(error.config); // The config that was used to make the request
+	    console.log(error.response); // Only available if response was received from the server
+	  });
     this.forceUpdate();
     this.setState({loading: false})
   }
@@ -75,9 +78,12 @@ class App extends Component {
   	this.setState({loading: true})
     this.setState({json: JSON.parse(this.state.jsonText)}, this.configureViaJSON);
     axios.post(window.location.href + 'config', JSON.parse(this.state.jsonText))
-	  .catch(function (error) {
-	    console.log(error);
-	});
+	  .catch((error) => {
+	    console.log(error.message);
+	    console.log(error.code); // Not always specified
+	    console.log(error.config); // The config that was used to make the request
+	    console.log(error.response); // Only available if response was received from the server
+	  });
 	this.setState({loading: false})
     this.handleClose();
   }
@@ -159,24 +165,24 @@ class App extends Component {
     this.setState({
       json: {
         "config": {
-          "PageTitle": "Dynamic Links Catalog",
+          "PageTitle": "Default Dynamic Links Catalog",
           "PageFavicon": "https://pbs.twimg.com/profile_images/571295883073843200/OerZFKD_.png",
-          "DirectoryTitle" : "",
-          "DirectoryHexColor" : "",
-          "PageBackgroundURL" : "",
+          "DirectoryTitle" : "ExampleTitle",
+          "DirectoryHexColor" : "#000000",
+          "PageBackgroundURL" : "/img/default_background.jpg",
           "cards" : [
             {
-              "Header" : "",
-              "HeaderSubtitle" : "",
-              "ExpandedText" : "",
-              "Image" : "",
+              "Header" : "ExampleHeader",
+              "HeaderSubtitle" : "ExampleSubtitle",
+              "ExpandedText" : "ExampleTextBody",
+              "Image" : "https://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg",
               "Buttons" : [
                   {
-                    "buttontext" : "",
+                    "buttontext" : "ExampleButtonText",
                     "linkURL" : ""
                   },
                   {
-                    "buttontext" : "",
+                    "buttontext" : "ExampleButtonText2",
                     "linkURL" : ""
                   }
                 ]
@@ -191,9 +197,10 @@ class App extends Component {
   	.then(function(response) {
   		that.setState({json: response['data']}, that.configureViaJSON);
   	})
-  	.catch(function(error) {
-  		console.log(error);
-  	});
+  	 .catch((error) => {
+	    console.log(error.message);
+	    console.log(error.response.data);
+	  })
   }
 
   render() {
@@ -269,7 +276,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.2.7; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.3.0; Steven Gantz, GPL-3 (C) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );
