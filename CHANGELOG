@@ -1,7 +1,10 @@
 V 1.3.0 - Feature add
 (IN PROGRESS) - New GUI redesign and server-miscommunication local persistence
-	(IN PROGRESS) - If server stops talking, the page can stay open and work, and will update when connected
+	- If server stops talking, the page can stay open and work locally
 	(IN PROGRESS) - GUI redesign to replace JSON configuration settings page
+- Security
+	(IN PROGRESS) - Create admin on first access
+	(IN PROGRESS) - validate with initial account to update settings after initial setup
 
 V 1.2.7 - Small Feature Add and Bug fix
 - Added error handling for spring boot /error that maps directly back to /

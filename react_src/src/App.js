@@ -45,6 +45,12 @@ class App extends Component {
     SaveDisabled: false,
     jsonerror: "",
     loading: false,
+    hasValidation: false,
+    isValidated: false,
+    openAuth: false,
+    username: "",
+    password: "",
+    serverConnected: true,
   };
 
   // -- Refreshing the page --
@@ -68,10 +74,16 @@ class App extends Component {
 
   // -- Settings functions --
   handleOpen = () => {
-    this.setState({open: true});
 
-    // Disable save button unless something changes (in settings)
-    this.setState({SaveDisabled: true})
+  	// If validated, open
+    if(this.state.isValidated){
+  		this.setState({open: true});
+  	} 
+
+  	// if connected to server but not validated, open validation
+  	if(!this.state.isValidated && this.state.hasValidation){
+  		this.setState({openAuth: true})
+  	}
   };
 
   handleSave = () => {
@@ -108,6 +120,61 @@ class App extends Component {
 	    this.setState({jsonerror: ""})
   };
   // -- End Settings functions --
+
+  // Handle credential creation
+  addCreds = () => {
+  	var that = this;
+  	axios.post(window.location.href + 'setup-security', 
+  		document.getElementById("username") + ":" + document.getElementById("password"))
+  	.then(function(response) {
+  		if(response['status'] === 200){
+  			that.setState({hasValidation: true});
+  			that.setState({isValidated: true});
+  		} else {
+  			console.log("Something went wrong, please try again...");
+  			that.setState({hasValidation: false});
+  			that.setState({isValidated: false});
+  		}
+  	})
+  	.catch((error) => {
+  		console.log(error);
+  		that.setState({hasValidation: false});
+  		that.setState({isValidated: false});
+	  });
+  }
+  // End credential creation
+
+  // Handle checking creds
+  checkCreds = () => {
+  	axios.post(window.location.href + 'security', 
+  		document.getElementById("check_username") + ":" + document.getElementById("check_password"))
+  	.then(function(response) {
+  		console.log(response);
+  	})
+  	.catch((error) => {
+  		console.log(error);
+	  });
+
+  	// If server is not connected, allow any creds, also allow if creds are good
+ 	if(!this.serverConnected || true){
+  		this.setState({openAuth: false})
+  		this.setState({isValidated: true});
+  	} else if(this.serverConnected && false){
+		this.setState({openAuth: true})
+  		this.setState({isValidated: false});
+  		console.log("Credentials denied, try again");
+  	}
+  }
+  // End handling cred check
+
+  // Handle Settings Validation with Server
+  checkValidation = () => {
+  	// Check for pre-validation
+  	if(this.state.isValidated){
+  		return true;
+  	}
+  }
+  // End Handling Settings validation with Server
 
   // Function builds cardlist directly
   buildCardArray = () => {
@@ -201,6 +268,22 @@ class App extends Component {
 	    console.log(error.message);
 	    console.log(error.response.data);
 	  })
+
+  	// Find out if hasValidation should be true or false using AXIOS
+  	var that = this;
+  	axios.get(window.location.href + 'security')
+  	.then(function(response) {
+  		// success means server is connected
+  		if(response['status'] === 200){
+  			that.setState({hasValidation: true, isValidated: false})
+  		} else {
+  			that.setState({hasValidation: false, isValidated: false})
+  		}
+  	})
+  	.catch((error) => {
+  		// failure means server isn't connected
+  		that.setState({hasValidation: false, serverConnected: false})
+	  });
   }
 
   render() {
@@ -220,6 +303,22 @@ class App extends Component {
         onTouchTap={this.handleSave}
       />,
     ];
+
+    const securityActions = [
+      <FlatButton
+        label="Setup Authentication"
+        primary={true}
+        onTouchTap={this.addCreds}
+      />
+    ];
+
+    const authActions = [
+    	<FlatButton
+        label="Authenticate"
+        primary={true}
+        onTouchTap={this.checkCreds}
+      />
+    ]
     
     var currentFavicon = this.state.json['config']['PageFavicon'];
 
@@ -251,6 +350,52 @@ class App extends Component {
           </MuiThemeProvider>
         </div>
         <div>
+          <MuiThemeProvider>
+	          <Dialog
+	              title="Required Authentication Setup"
+	              actions={securityActions}
+	              modal={true}
+	              open={!this.state.hasValidation}
+	              contentStyle={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}
+	              repositionOnUpdate={ false }>
+	            <TextField
+	                id="username"
+	                fullWidth={true}
+	                hintText="Enter a username here"
+	                floatingLabelText="Username"
+	            />
+	            <TextField
+	                id="password"
+	                type="password"
+	                fullWidth={true}
+	                hintText="Enter a password here"
+	                floatingLabelText="Password"
+	            />
+	          </Dialog>
+	      </MuiThemeProvider>
+	      <MuiThemeProvider>
+	          <Dialog
+	              title="Authenticate to Make Changes"
+	              actions={authActions}
+	              modal={true}
+	              open={this.state.hasValidation && !this.state.isValidated && this.state.openAuth}
+	              contentStyle={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}
+	              repositionOnUpdate={ false }>
+	            <TextField
+	                id="check_username"
+	                fullWidth={true}
+	                hintText="Enter a username here"
+	                floatingLabelText="Username"
+	            />
+	            <TextField
+	                id="check_password"
+	                type="password"
+	                fullWidth={true}
+	                hintText="Enter a password here"
+	                floatingLabelText="Password"
+	            />
+	          </Dialog>
+          </MuiThemeProvider>
           <MuiThemeProvider>
             <Dialog
               title="Application Configuration"

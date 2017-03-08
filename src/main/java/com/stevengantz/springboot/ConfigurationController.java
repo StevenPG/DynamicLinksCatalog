@@ -68,4 +68,15 @@ public class ConfigurationController {
     public ResponseEntity<String> update(@RequestBody String json) {
     	return new ResponseEntity<String>(new ConfigurationFileHandler().writeConfigurationFile(json), HttpStatus.OK);
     }
+    
+    /**
+     * POST method that recieves the updated configuration
+     * @param json JSON to be written as the current JSON configuration
+     * @return ResponseEntity that contains the updated configuration and HTTP/200
+     */
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/security", method = RequestMethod.GET)
+    public ResponseEntity<String> checkAuthSetup() {
+    	return new ResponseEntity<String>("Authentication Setup", HttpStatus.OK);
+    }
 }
