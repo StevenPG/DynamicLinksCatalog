@@ -70,13 +70,23 @@ public class ConfigurationController {
     }
     
     /**
-     * POST method that recieves the updated configuration
-     * @param json JSON to be written as the current JSON configuration
-     * @return ResponseEntity that contains the updated configuration and HTTP/200
+     * GET method that returns whether auth was configured or not
+     * @return ResponseEntity that HTTP/200 or /302 depending on circumstances
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/security", method = RequestMethod.GET)
     public ResponseEntity<String> checkAuthSetup() {
     	return new ResponseEntity<String>("Authentication Setup", HttpStatus.OK);
+    }
+    
+    /**
+     * POST method that returns whether credentials match or not
+     * @param json JSON to be written as the current JSON configuration
+     * @return ResponseEntity that contains successful or failure depending on matching result
+     */
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/security", method = RequestMethod.POST)
+    public ResponseEntity<String> ValidateAuth(@RequestBody String input) {
+    	return new ResponseEntity<String>("Successful", HttpStatus.OK);
     }
 }

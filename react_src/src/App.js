@@ -146,10 +146,15 @@ class App extends Component {
 
   // Handle checking creds
   checkCreds = () => {
+  	var that = this;
   	axios.post(window.location.href + 'security', 
   		document.getElementById("check_username") + ":" + document.getElementById("check_password"))
   	.then(function(response) {
-  		console.log(response);
+  		if(response['status'] === 200){
+  			that.setState({hasValidation: true, isValidated: true, open: true})
+  		} else {
+  			that.setState({hasValidation: true, isValidated: false})
+  		}
   	})
   	.catch((error) => {
   		console.log(error);
