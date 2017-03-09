@@ -1,11 +1,14 @@
 package com.stevengantz.springboot;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.stevengantz.config.AuthenticationFileHandler;
 import com.stevengantz.config.ConfigurationFileHandler;
 
 /**
@@ -28,7 +31,12 @@ public class ContextRefreshedListener implements ApplicationListener<ContextRefr
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
-		new ConfigurationFileHandler().getConfigurationFile();
+		try {
+			new ConfigurationFileHandler().getConfigurationFile();
+			new AuthenticationFileHandler();
+		} catch (IOException e) {
+			throw new RuntimeException("Can't build/find auth file... exiting...");
+		}
 		logger.info("Refreshing Context" + "[" + className + "]");
 	}
 

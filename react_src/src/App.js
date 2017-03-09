@@ -152,8 +152,11 @@ class App extends Component {
   	.then(function(response) {
   		if(response['status'] === 200){
   			that.setState({hasValidation: true, isValidated: true, open: true})
-  		} else {
-  			that.setState({hasValidation: true, isValidated: false})
+  		} else if(response['status'] === 401) {
+			that.setState({hasValidation: true, isValidated: false})
+  		} else if(response['status'] === 503) {
+  			that.setState({hasValidation: false, isValidated: false})
+  			console.log("Error communicating with server file system...");
   		}
   	})
   	.catch((error) => {
@@ -279,10 +282,13 @@ class App extends Component {
   	axios.get(window.location.href + 'security')
   	.then(function(response) {
   		// success means server is connected
-  		if(response['status'] === 200){
+  		if(response['status'] === 200) {
   			that.setState({hasValidation: true, isValidated: false})
-  		} else {
+  		} else if(response['status'] === 204) {
+			that.setState({hasValidation: false, isValidated: false})
+  		} else if(response['status'] === 503) {
   			that.setState({hasValidation: false, isValidated: false})
+  			console.log("Error communicating with server file system...");
   		}
   	})
   	.catch((error) => {

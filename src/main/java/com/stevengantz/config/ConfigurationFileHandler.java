@@ -76,9 +76,7 @@ public class ConfigurationFileHandler {
 
 	
 	/**
-	 * Constructor checks for file existing, and
-	 * retrieves that file as it's file to handle.
-	 * @throws IOException Thrown if new file cannot be created
+	 * Default constructor does nothing
 	 */
 	public ConfigurationFileHandler() {	
 		

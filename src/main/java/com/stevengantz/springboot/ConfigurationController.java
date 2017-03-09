@@ -1,5 +1,6 @@
 package com.stevengantz.springboot;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stevengantz.config.AuthenticationFileHandler;
 import com.stevengantz.config.ConfigurationFileHandler;
 
 /**
@@ -76,17 +78,50 @@ public class ConfigurationController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/security", method = RequestMethod.GET)
     public ResponseEntity<String> checkAuthSetup() {
-    	return new ResponseEntity<String>("Authentication Setup", HttpStatus.OK);
+		try {
+			AuthenticationFileHandler handler = new AuthenticationFileHandler();
+			if(new File(handler.getAuthFileLocation()).length() == 0){
+				return new ResponseEntity<String>("Authentication Server Found, Please Add Content", HttpStatus.NO_CONTENT);
+			} else {
+				return new ResponseEntity<String>("Authentication Server Found", HttpStatus.OK);
+			}
+		} catch (IOException e) { // If exception thrown, serve no content w/ error
+			return new ResponseEntity<String>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
+		}
+    }
+    
+    /**
+     * POST method that adds input into auth file
+     * @return ResponseEntity that contains successful or failure depending on write result
+     */
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/setup-security", method = RequestMethod.POST)
+    public ResponseEntity<String> WriteAuth(@RequestBody String input) {
+    	try {
+			AuthenticationFileHandler handler = new AuthenticationFileHandler();
+			handler.writeToFileWithString(input);
+			return new ResponseEntity<String>("Credentials Written", HttpStatus.OK);
+		} catch (IOException e) { // If exception thrown, serve no content w/ error
+			return new ResponseEntity<String>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
+		}
     }
     
     /**
      * POST method that returns whether credentials match or not
-     * @param json JSON to be written as the current JSON configuration
      * @return ResponseEntity that contains successful or failure depending on matching result
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/security", method = RequestMethod.POST)
     public ResponseEntity<String> ValidateAuth(@RequestBody String input) {
-    	return new ResponseEntity<String>("Successful", HttpStatus.OK);
+    	try {
+    		AuthenticationFileHandler handler = new AuthenticationFileHandler();
+    		if(handler.compareAgainstFile(input)){
+    			return new ResponseEntity<String>("Successful", HttpStatus.OK);
+    		} else {
+    			return new ResponseEntity<String>("Successful", HttpStatus.UNAUTHORIZED);
+    		}
+    	} catch (IOException e) { // If exception thrown, serve no content w/ error
+			return new ResponseEntity<String>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
+		}
     }
 }
