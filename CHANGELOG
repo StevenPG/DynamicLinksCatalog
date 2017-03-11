@@ -1,8 +1,11 @@
+V 1.3.1 - Bug fix
+- Validating creds correctly, fixed bug where incorrect credentials worked correctly
+
 V 1.3.0 - Feature add
-	- If server stops talking, the page can stay open and work locally
-	- Security
-		- Create admin on first access
-		- validate with initial account to update settings after initial setup
+- If server stops talking, the page can stay open and work locally
+- Security
+	- Create admin on first access
+	- validate with initial account to update settings after initial setup
 
 V 1.2.7 - Small Feature Add and Bug fix
 - Added error handling for spring boot /error that maps directly back to /

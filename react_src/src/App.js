@@ -125,7 +125,7 @@ class App extends Component {
   addCreds = () => {
   	var that = this;
   	axios.post(window.location.href + 'setup-security', 
-  		document.getElementById("username") + ":" + document.getElementById("password"))
+  		document.getElementById("username").value + ":" + document.getElementById("password").value)
   	.then(function(response) {
   		if(response['status'] === 200){
   			that.setState({hasValidation: true});
@@ -148,12 +148,16 @@ class App extends Component {
   checkCreds = () => {
   	var that = this;
   	axios.post(window.location.href + 'security', 
-  		document.getElementById("check_username") + ":" + document.getElementById("check_password"))
+  		document.getElementById("check_username").value + ":" + document.getElementById("check_password").value)
   	.then(function(response) {
   		if(response['status'] === 200){
-  			that.setState({hasValidation: true, isValidated: true, open: true})
-  		} else if(response['status'] === 401) {
-			that.setState({hasValidation: true, isValidated: false})
+  			if(response['data']) { // If response is true
+  				that.setState({hasValidation: true, isValidated: true, open: true})
+  				console.log("good creds");
+  			} else {
+  				that.setState({hasValidation: true, isValidated: false})
+			console.log("bad creds");
+  			}
   		} else if(response['status'] === 503) {
   			that.setState({hasValidation: false, isValidated: false})
   			console.log("Error communicating with server file system...");
@@ -432,7 +436,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.3.0; Steven Gantz, MIT (c) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.3.1; Steven Gantz, MIT (c) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );

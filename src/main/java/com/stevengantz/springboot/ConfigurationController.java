@@ -112,16 +112,16 @@ public class ConfigurationController {
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/security", method = RequestMethod.POST)
-    public ResponseEntity<String> ValidateAuth(@RequestBody String input) {
+    public ResponseEntity<Boolean> ValidateAuth(@RequestBody String input) {
     	try {
     		AuthenticationFileHandler handler = new AuthenticationFileHandler();
     		if(handler.compareAgainstFile(input)){
-    			return new ResponseEntity<String>("Successful", HttpStatus.OK);
+    			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     		} else {
-    			return new ResponseEntity<String>("Successful", HttpStatus.UNAUTHORIZED);
+    			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
     		}
     	} catch (IOException e) { // If exception thrown, serve no content w/ error
-			return new ResponseEntity<String>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<Boolean>(false, HttpStatus.SERVICE_UNAVAILABLE);
 		}
     }
 }
