@@ -130,6 +130,7 @@ class App extends Component {
   		if(response['status'] === 200){
   			that.setState({hasValidation: true});
   			that.setState({isValidated: true});
+  			that.setState({SaveDisabled: true});
   		} else {
   			console.log("Something went wrong, please try again...");
   			that.setState({hasValidation: false});
@@ -152,11 +153,11 @@ class App extends Component {
   	.then(function(response) {
   		if(response['status'] === 200){
   			if(response['data']) { // If response is true
-  				that.setState({hasValidation: true, isValidated: true, open: true})
+  				that.setState({hasValidation: true, isValidated: true, open: true, SaveDisabled: true})
   				console.log("good creds");
   			} else {
   				that.setState({hasValidation: true, isValidated: false})
-			console.log("bad creds");
+				console.log("bad creds");
   			}
   		} else if(response['status'] === 503) {
   			that.setState({hasValidation: false, isValidated: false})
