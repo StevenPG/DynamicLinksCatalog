@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.stevengantz.exception.ApplicationFailStateException;
 import com.stevengantz.json.JSONConfigurationPOJO;
 import com.stevengantz.json.JSONReaderWriter;
 
@@ -73,14 +74,6 @@ public class ConfigurationFileHandler {
 						"}]" +
 						"}" + 
 						"}";
-
-	
-	/**
-	 * Default constructor does nothing
-	 */
-	public ConfigurationFileHandler() {	
-		
-	}
 	
 	/**
 	 * Retrieve file handle
@@ -102,8 +95,7 @@ public class ConfigurationFileHandler {
 				
 			} catch (IOException e) {
 				logger.error("Configuration failed to write to file..." + "[" + className + "]");
-				e.printStackTrace();
-				System.exit(1);
+				throw new ApplicationFailStateException(e.getMessage());
 			}
 			return configFile;
 		}
@@ -121,7 +113,7 @@ public class ConfigurationFileHandler {
 				return JSONReaderWriter.readAsString(this.configFile);
 			} catch (IOException e) {
 				logger.error("Failed to read incoming POSTed json");
-				e.printStackTrace();
+				throw new ApplicationFailStateException(e.getMessage());
 			}
 		} else {
 			try {
@@ -138,11 +130,9 @@ public class ConfigurationFileHandler {
 				return JSONReaderWriter.readAsString(this.configFile);
 			} catch (IOException e) {
 				logger.error("Failed to read incoming POSTed json");
-				e.printStackTrace();
+				throw new ApplicationFailStateException(e.getMessage());
 			}
-			return null;
 		}
-		return json;
 	}
 	
 	/**
@@ -166,8 +156,7 @@ public class ConfigurationFileHandler {
 				
 			} catch (IOException e) {
 				logger.error("Configuration failed to write to file..." + "[" + className + "]");
-				e.printStackTrace();
-				System.exit(1);
+				throw new ApplicationFailStateException(e.getMessage());
 			}
 			return JSONReaderWriter.readAsString(configFile);
 		}

@@ -3,6 +3,16 @@ V 1.3.1 - Bug fix
 - Fixed bug where saving w/ no changes resulted in a javascript error
 - Updated Auth box, giving more detailed description
 - Added notifications after Auth check is done
+- SonarQube Addition (Bringing project to high quality standards in this version)
+	- Fail if any of the following are true:
+		- Blocker issues > 0
+		- Critical issues > 0
+		- Code Coverage is less than 60
+		- Coverage on new code is less than 80
+		- Maintainability Rating is worse than A
+		- Security Rating is worse than A
+		- Reliability Rating is worse than A
+		- Unit test success is not 100%
 
 V 1.3.0 - Feature add
 - If server stops talking, the page can stay open and work locally
