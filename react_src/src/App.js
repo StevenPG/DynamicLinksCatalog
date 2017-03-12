@@ -17,6 +17,10 @@ import FlatButton from 'material-ui/FlatButton';
 import LinearProgress from 'material-ui/LinearProgress';
 // End Loading bar
 
+// Snackbar
+import Snackbar from 'material-ui/Snackbar';
+// End Snackbar
+
 // CardList
 import CardList from './CardList'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -51,6 +55,8 @@ class App extends Component {
     username: "",
     password: "",
     serverConnected: true,
+    showGoodSnack: false,
+    showBadSnack: false,
   };
 
   // -- Refreshing the page --
@@ -99,6 +105,25 @@ class App extends Component {
 	this.setState({loading: false})
     this.handleClose();
   }
+
+  // --- Snackbar functions ---
+  // http://www.material-ui.com/#/components/snackbar
+  openGoodCredsSnack = () => {
+	this.setState({showGoodSnack: true})
+  }
+
+  openBadCredsSnack = () => {
+	this.setState({showBadSnack: true})
+  }
+
+  closeGoodCredsSnack = () => {
+  	this.setState({showGoodSnack: false})
+  }
+
+  closeBadCredsSnack = () => {
+  	this.setState({showBadSnack: false})
+  }
+  // --- End snackbar functions ---
 
   onConfigChange = (e) => {
 	  this.setState({loading: true})
@@ -154,10 +179,10 @@ class App extends Component {
   		if(response['status'] === 200){
   			if(response['data']) { // If response is true
   				that.setState({hasValidation: true, isValidated: true, open: true, SaveDisabled: true})
-  				console.log("good creds");
+  				that.openGoodCredsSnack();
   			} else {
   				that.setState({hasValidation: true, isValidated: false})
-				console.log("bad creds");
+  				that.openBadCredsSnack();
   			}
   		} else if(response['status'] === 503) {
   			that.setState({hasValidation: false, isValidated: false})
@@ -283,7 +308,6 @@ class App extends Component {
 	  })
 
   	// Find out if hasValidation should be true or false using AXIOS
-  	var that = this;
   	axios.get(window.location.href + 'security')
   	.then(function(response) {
   		// success means server is connected
@@ -366,9 +390,27 @@ class App extends Component {
           </MuiThemeProvider>
         </div>
         <div>
+        	<MuiThemeProvider>
+	        	<Snackbar
+		          open={this.state.showGoodSnack}
+		          message="Credentials Accepted"
+		          autoHideDuration={6000}
+		          onRequestClose={this.closeGoodCredsSnack}
+		        />
+	        </MuiThemeProvider>
+	        <MuiThemeProvider>
+	        	<Snackbar
+		          open={this.state.showBadSnack}
+		          message="Credentials Not Accepted: Incorrect username or password"
+		          autoHideDuration={6000}
+		          onRequestClose={this.closeBadCredsSnack}
+		        />
+	        </MuiThemeProvider>
+        </div>
+        <div>
           <MuiThemeProvider>
 	          <Dialog
-	              title="Required Authentication Setup"
+	              title="Required Authentication Setup, Please Enter New Admin Credentials"
 	              actions={securityActions}
 	              modal={true}
 	              open={!this.state.hasValidation}
