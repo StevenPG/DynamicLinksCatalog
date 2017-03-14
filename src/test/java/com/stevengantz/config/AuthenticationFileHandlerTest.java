@@ -6,13 +6,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.stevengantz.config.AuthenticationFileHandler;
 
 public class AuthenticationFileHandlerTest {
 
@@ -47,45 +47,44 @@ public class AuthenticationFileHandlerTest {
 	}
 
 	@Test
-	public void testWriteToFile() throws IOException {
-		String testString = "TestString";
+	public void testWriteToFile() throws IOException, NoSuchAlgorithmException {
+		byte[] hashedTest = MessageDigest.getInstance("SHA-256").digest("TestString".getBytes());
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
-		authH.writeToFile(testString.getBytes());
+		authH.writeToFile("TestString".getBytes());
 
-		assertTrue(testString.equals(new String(Files.readAllBytes(tmp.toPath()))));
+		assertTrue(Arrays.equals(hashedTest, Files.readAllBytes(tmp.toPath())));
 	}
 	
 	@Test
-	public void testWriteToFileWithString() throws IOException {
+	public void testWriteToFileWithString() throws IOException, NoSuchAlgorithmException {
 
-		String testString = "TestString";
+		byte[] hashedTest = MessageDigest.getInstance("SHA-256").digest("TestString".getBytes());
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
-		authH.writeToFileWithString(testString);
+		authH.writeToFileWithString("TestString");
 
-		assertTrue(testString.equals(new String(Files.readAllBytes(tmp.toPath()))));
+		assertTrue(Arrays.equals(hashedTest, Files.readAllBytes(tmp.toPath())));
 	}
 
 	@Test
-	public void testCompareAgainstFile() throws IOException {
+	public void testCompareAgainstFile() throws IOException, NoSuchAlgorithmException {
 
-		String testString = "TestString";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
-		authH.writeToFile(testString.getBytes());
+		authH.writeToFileWithString("TestString");
 
-		assertTrue(authH.compareAgainstFile(testString));
+		assertTrue(authH.compareAgainstFile("TestString"));
 	}
 
 	@Test
-	public void testCompareAgainstFileManualWrite() throws IOException {
+	public void testCompareAgainstFileManualWrite() throws IOException, NoSuchAlgorithmException {
 
-		String testString = "TestString";
+		byte[] hashedTest = MessageDigest.getInstance("SHA-256").digest("TestString".getBytes());
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 
 		FileOutputStream fos = new FileOutputStream(tmp);
-		fos.write(testString.getBytes());
+		fos.write(hashedTest);
 		fos.close();
 
-		assertTrue(authH.compareAgainstFile(testString));
+		assertTrue(authH.compareAgainstFile("TestString"));
 	}
 
 	@Test

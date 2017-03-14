@@ -2,6 +2,7 @@ package com.stevengantz.springboot;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -80,10 +81,11 @@ public class ConfigurationController {
     /**
      * POST method that adds input into auth file
      * @return ResponseEntity that contains successful or failure depending on write result
+     * @throws NoSuchAlgorithmException thrown if SHA-256 is not available through MessageDigest
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/setup-security", method = RequestMethod.POST)
-    public ResponseEntity<String> writeAuth(@RequestBody String input) {
+    public ResponseEntity<String> writeAuth(@RequestBody String input) throws NoSuchAlgorithmException {
     	try {
 			AuthenticationFileHandler localHandler = new AuthenticationFileHandler();
 			localHandler.writeToFileWithString(input);
@@ -96,10 +98,11 @@ public class ConfigurationController {
     /**
      * POST method that returns whether credentials match or not
      * @return ResponseEntity that contains successful or failure depending on matching result
+     * @throws NoSuchAlgorithmException thrown is SHA-256 is not available
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/security", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> validateAuth(@RequestBody String input) {
+    public ResponseEntity<Boolean> validateAuth(@RequestBody String input) throws NoSuchAlgorithmException {
     	try {
     		AuthenticationFileHandler localHandler = new AuthenticationFileHandler();
     		if(localHandler.compareAgainstFile(input)){

@@ -3,7 +3,11 @@ package com.stevengantz.config;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,29 +68,39 @@ public class AuthenticationFileHandler {
 	/**
 	 * Writes incoming string as bytes into file
 	 * @throws IOException thrown if unable to write into file
+	 * @throws NoSuchAlgorithmException thrown if SHA-256 is not found
 	 */
-	public void writeToFile(byte[] incomingBytes) throws IOException {
+	public void writeToFile(byte[] incomingBytes) throws IOException, NoSuchAlgorithmException {
 		FileOutputStream fos = new FileOutputStream(this.authFile);
-		fos.write(incomingBytes);
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		byte [] hash = digest.digest(incomingBytes);
+		fos.write(hash);
 		fos.close();
 	}
 	
 	/**
-	 * Writes incoming string as bytes into file
+	 * Writes incoming string as hashed bytes into file
 	 * @throws IOException thrown if unable to write into file
+	 * @throws NoSuchAlgorithmException thrown if SHA-256 is not found
 	 */
-	public void writeToFileWithString(String incomingString) throws IOException {
+	public void writeToFileWithString(String incomingString) throws IOException, NoSuchAlgorithmException {
 		FileOutputStream fos = new FileOutputStream(this.authFile);
-		fos.write(incomingString.getBytes());
+		
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		byte [] hash = digest.digest(incomingString.getBytes(StandardCharsets.UTF_8));
+		fos.write(hash);
 		fos.close();
 	}
 	
 	/**
 	 * Reads bytes from file and compares to incoming string
 	 * @throws IOException thrown if unable to read bytes from file
+	 * @throws NoSuchAlgorithmException thrown if SHA-256 is not found
 	 */
-	public boolean compareAgainstFile(String in) throws IOException {
-		return in.equals(new String(getFileBytes()));
+	public boolean compareAgainstFile(String in) throws IOException, NoSuchAlgorithmException {
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		byte [] hash = digest.digest(in.getBytes(StandardCharsets.UTF_8));
+		return Arrays.equals(hash, getFileBytes());
 	}
 	
 	/**
