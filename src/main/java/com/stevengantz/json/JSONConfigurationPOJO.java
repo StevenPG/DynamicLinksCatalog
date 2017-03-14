@@ -22,7 +22,7 @@ public class JSONConfigurationPOJO {
 	@JsonProperty("config")
 	private Config config;
 	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new HashMap<>();
 
 	@JsonProperty("config")
 	public Config getConfig() {

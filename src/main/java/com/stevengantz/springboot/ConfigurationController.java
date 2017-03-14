@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,21 +27,9 @@ import com.stevengantz.config.ConfigurationFileHandler;
 public class ConfigurationController {
 	
 	/**
-	 * Single config file handler that will retrieve and overwrite file based on
-	 * GET vs POST.
-	 */
-	@Autowired
-	protected ConfigurationFileHandler handler;
-	
-	/**
 	 * Spring Boot logger
 	 */
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	/**
-	 * Class name to be appended onto logger
-	 */
-	private final String className = this.getClass().getName();
 
 	/**
 	 * GET method that returns the current JSON configuration
@@ -53,10 +40,10 @@ public class ConfigurationController {
     public ResponseEntity<String> getConfig(HttpServletRequest request) {
         try {
         	logger.info("Client retrieved configuration from " + request.getRemoteAddr() + " using " + request.getHeader("user-agent"));
-			return new ResponseEntity<String>(new ConfigurationFileHandler().getConfigurationFileAsString(), HttpStatus.OK);
+			return new ResponseEntity<>(new ConfigurationFileHandler().getConfigurationFileAsString(), HttpStatus.OK);
 		} catch (IOException e) {
-			logger.error("Configuration file wasn't found or couldn't be written to..." + "[" + className + "]");
-			return new ResponseEntity<String>("Some error has occurred, configuration file wasn't found.", HttpStatus.NO_CONTENT);
+			logger.error("Configuration file wasn't found or couldn't be written to..." + "[" + this.getClass().getName() + "]");
+			return new ResponseEntity<>("Some error has occurred, configuration file wasn't found.", HttpStatus.NO_CONTENT);
 		}
     }
     
@@ -68,7 +55,7 @@ public class ConfigurationController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/config", method = RequestMethod.POST)
     public ResponseEntity<String> update(@RequestBody String json) {
-    	return new ResponseEntity<String>(new ConfigurationFileHandler().writeConfigurationFile(json), HttpStatus.OK);
+    	return new ResponseEntity<>(new ConfigurationFileHandler().writeConfigurationFile(json), HttpStatus.OK);
     }
     
     /**
@@ -81,12 +68,12 @@ public class ConfigurationController {
 		try {
 			AuthenticationFileHandler handler = new AuthenticationFileHandler();
 			if(new File(handler.getAuthFileLocation()).length() == 0){
-				return new ResponseEntity<String>("Authentication Server Found, Please Add Content", HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>("Authentication Server Found, Please Add Content", HttpStatus.NO_CONTENT);
 			} else {
-				return new ResponseEntity<String>("Authentication Server Found", HttpStatus.OK);
+				return new ResponseEntity<>("Authentication Server Found", HttpStatus.OK);
 			}
 		} catch (IOException e) { // If exception thrown, serve no content w/ error
-			return new ResponseEntity<String>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
 		}
     }
     
@@ -96,13 +83,13 @@ public class ConfigurationController {
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/setup-security", method = RequestMethod.POST)
-    public ResponseEntity<String> WriteAuth(@RequestBody String input) {
+    public ResponseEntity<String> writeAuth(@RequestBody String input) {
     	try {
-			AuthenticationFileHandler handler = new AuthenticationFileHandler();
-			handler.writeToFileWithString(input);
-			return new ResponseEntity<String>("Credentials Written", HttpStatus.OK);
+			AuthenticationFileHandler localHandler = new AuthenticationFileHandler();
+			localHandler.writeToFileWithString(input);
+			return new ResponseEntity<>("Credentials Written", HttpStatus.OK);
 		} catch (IOException e) { // If exception thrown, serve no content w/ error
-			return new ResponseEntity<String>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<>("Failure to access server file system", HttpStatus.SERVICE_UNAVAILABLE);
 		}
     }
     
@@ -112,16 +99,16 @@ public class ConfigurationController {
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/security", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> ValidateAuth(@RequestBody String input) {
+    public ResponseEntity<Boolean> validateAuth(@RequestBody String input) {
     	try {
-    		AuthenticationFileHandler handler = new AuthenticationFileHandler();
-    		if(handler.compareAgainstFile(input)){
-    			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+    		AuthenticationFileHandler localHandler = new AuthenticationFileHandler();
+    		if(localHandler.compareAgainstFile(input)){
+    			return new ResponseEntity<>(true, HttpStatus.OK);
     		} else {
-    			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+    			return new ResponseEntity<>(false, HttpStatus.OK);
     		}
     	} catch (IOException e) { // If exception thrown, serve no content w/ error
-			return new ResponseEntity<Boolean>(false, HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<>(false, HttpStatus.SERVICE_UNAVAILABLE);
 		}
     }
 }

@@ -29,7 +29,7 @@ public class Config {
 	@JsonProperty("cards")
 	private List<Card> cards = null;
 	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new HashMap<>();
 
 	@JsonProperty("DirectoryTitle")
 	public String getDirectoryTitle() {

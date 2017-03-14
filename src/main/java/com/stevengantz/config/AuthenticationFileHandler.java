@@ -104,7 +104,7 @@ public class AuthenticationFileHandler {
 	protected void buildOrLoadFile() throws IOException {
 		File auth = new File(this.directory + "/" + this.filename);
 		if(!auth.createNewFile()){
-			logger.error("Creating new file failed..." + "[" + className + "]");
+			logger.error("Found Existing Config file " + "[" + className + "]");
 		}
 		this.authFile = auth;
 	}
@@ -132,11 +132,7 @@ public class AuthenticationFileHandler {
 	 */
 	public boolean isFileEmpty() throws IOException{
 		byte[] fileBytes = this.getFileBytes();
-		if(fileBytes.length == 0){
-			return true;
-		} else {
-			return false;
-		}
+		return fileBytes.length == 0;
 	}
 	
 }

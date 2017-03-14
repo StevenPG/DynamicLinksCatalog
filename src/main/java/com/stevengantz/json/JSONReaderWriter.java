@@ -18,6 +18,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JSONReaderWriter {
 	
 	/**
+	 * Private method, should not be constructed
+	 */
+	private JSONReaderWriter() {
+	    throw new IllegalAccessError("Utility class");
+	}
+	
+	/**
 	 * Method that reads from JSON string into JSONConfigurationPOJO object
 	 * @param json input string to build into JSONConfigurationPOJO object
 	 * @return JSONConfigurationPOJO object containing values from input file
@@ -25,7 +32,7 @@ public class JSONReaderWriter {
 	 * @throws JsonMappingException thrown when mapping json fails
 	 * @throws IOException thrown when writing to string fails
 	 */
-	public static JSONConfigurationPOJO read(String json) throws JsonParseException, JsonMappingException, IOException{
+	public static JSONConfigurationPOJO read(String json) throws JsonMappingException, IOException{
 		return new ObjectMapper().readValue(json, JSONConfigurationPOJO.class);
 	}
 	
@@ -37,7 +44,7 @@ public class JSONReaderWriter {
 	 * @throws JsonMappingException thrown when mapping json fails
 	 * @throws IOException thrown when writing to file fails
 	 */
-	public static JSONConfigurationPOJO read(File json) throws JsonParseException, JsonMappingException, IOException{
+	public static JSONConfigurationPOJO read(File json) throws JsonMappingException, IOException{
 		List<String> jsonLines = Files.readAllLines(json.toPath());
 		
 		StringBuilder jsonBuilder = new StringBuilder();
@@ -61,7 +68,7 @@ public class JSONReaderWriter {
 	 * @throws JsonMappingException thrown when mapping json into file fails
 	 * @throws IOException thrown when writing into file fails
 	 */
-	public static void write(File file, JSONConfigurationPOJO pojo) throws JsonGenerationException, JsonMappingException, IOException{
+	public static void write(File file, JSONConfigurationPOJO pojo) throws JsonMappingException, IOException{
 		new ObjectMapper().writeValue(file, pojo);
 	}
 }

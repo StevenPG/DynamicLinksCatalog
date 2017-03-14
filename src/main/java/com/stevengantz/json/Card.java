@@ -31,7 +31,7 @@ public class Card {
 	@JsonProperty("Buttons")
 	private List<Button> buttons = null;
 	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new HashMap<>();
 
 	@JsonProperty("Header")
 	public String getHeader() {

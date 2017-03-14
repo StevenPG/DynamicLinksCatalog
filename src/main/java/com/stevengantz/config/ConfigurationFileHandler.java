@@ -52,7 +52,7 @@ public class ConfigurationFileHandler {
 	/**
      * Initial JSON string for application
      */
-    private final String defaultFileContent = "{" + 
+    private String defaultFileContent = "{" + 
     "\"config\": {" + 
     	"\"PageTitle\": \"Dynamic Links Catalog\"," +
     	"\"PageFavicon\": \"https://pbs.twimg.com/profile_images/571295883073843200/OerZFKD_.png\"," +
@@ -79,25 +79,13 @@ public class ConfigurationFileHandler {
 	 * Retrieve file handle
 	 * if it doesn't exist, recreate it to avoid errors!
 	 * @return
+	 * @throws IOException thrown when attempting to build file
 	 */
-	public File getConfigurationFile(){
+	public File getConfigurationFile() throws IOException{
 		if(this.configFile != null && this.configFile.exists()){
 			return configFile;
 		} else {
-			try {
-				buildDirectory();
-				buildOrRetrieveFile();
-				
-				// Only overwrite file if JSON config is bad
-				if(!isJSONFileValid()){
-					fillFileWithDefault();
-				}
-				
-			} catch (IOException e) {
-				logger.error("Configuration failed to write to file..." + "[" + className + "]");
-				logger.error(e.getMessage());
-				throw new ApplicationFailStateException(e);
-			}
+			buildFileIfNotExists();
 			return configFile;
 		}
 	}
@@ -148,21 +136,29 @@ public class ConfigurationFileHandler {
 		if(this.configFile != null && this.configFile.exists()){
 			return JSONReaderWriter.readAsString(configFile);
 		} else {
-			try {
-				buildDirectory();
-				buildOrRetrieveFile();
-				
-				// Only overwrite file if JSON config is bad
-				if(!isJSONFileValid()){
-					fillFileWithDefault();
-				}
-				
-			} catch (IOException e) {
-				logger.error("Configuration failed to write to file..." + "[" + className + "]");
-				logger.error(e.getMessage());
-				throw new ApplicationFailStateException(e);
-			}
+			buildFileIfNotExists();
 			return JSONReaderWriter.readAsString(configFile);
+		}
+	}
+	
+	/**
+	 * Attempt to build configuration file
+	 * @return configuration file
+	 * @throws IOException thrown when attempting to read created file
+	 */
+	protected void buildFileIfNotExists() throws IOException {
+		try {
+			buildDirectory();
+			buildOrRetrieveFile(); // This should create file
+			
+			// Only overwrite file if JSON config is bad
+			if(!isJSONFileValid()){
+				fillFileWithDefault();
+			}
+		} catch (IOException e) {
+			logger.error("Configuration failed to write to file..." + "[" + className + "]");
+			logger.error(e.getMessage());
+			throw new ApplicationFailStateException(e);
 		}
 	}
 	
@@ -175,7 +171,7 @@ public class ConfigurationFileHandler {
 		logger.info("Resolving file: " + this.filename + " located in " + this.directory + "[" + className + "]");
 		logger.info("Creating/Retrieving configuration file"+ "[" + className + "]");
 		if(!config.createNewFile()){
-			logger.error("Creating new file failed..." + "[" + className + "]");
+			logger.error("Found Existing Config file " + "[" + className + "]");
 		}
 		this.configFile = config;
 	}

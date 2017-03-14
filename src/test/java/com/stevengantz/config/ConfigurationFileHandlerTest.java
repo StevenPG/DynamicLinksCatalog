@@ -32,7 +32,7 @@ public class ConfigurationFileHandlerTest {
 	}
 
 	@Test
-	public void testGetConfigurationFile() {
+	public void testGetConfigurationFile() throws IOException {
 		ConfigurationFileHandler handler = new ConfigurationFileHandler();
 		// getConfig file builds file if not exist, so it must be called first for test to pass
 		assertTrue(handler.getConfigurationFile().toString().equals(handler.configFile.toString()));
@@ -72,7 +72,7 @@ public class ConfigurationFileHandlerTest {
 	}
 
 	@Test
-	public void testIsJSONFileValid() {
+	public void testIsJSONFileValid() throws IOException {
 		// Build config file, check for validity internally
 		ConfigurationFileHandler handler = new ConfigurationFileHandler();
 		handler.getConfigurationFile();

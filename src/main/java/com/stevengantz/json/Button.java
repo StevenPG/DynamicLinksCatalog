@@ -24,7 +24,7 @@ public class Button {
 	@JsonProperty("linkURL")
 	private String linkURL;
 	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new HashMap<>();
 
 	@JsonProperty("buttontext")
 	public String getButtontext() {
