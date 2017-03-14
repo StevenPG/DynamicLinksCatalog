@@ -103,7 +103,9 @@ public class AuthenticationFileHandler {
 	 */
 	protected void buildOrLoadFile() throws IOException {
 		File auth = new File(this.directory + "/" + this.filename);
-		auth.createNewFile();
+		if(!auth.createNewFile()){
+			logger.error("Creating new file failed..." + "[" + className + "]");
+		}
 		this.authFile = auth;
 	}
 	

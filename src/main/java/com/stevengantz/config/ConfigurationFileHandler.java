@@ -170,7 +170,9 @@ public class ConfigurationFileHandler {
 		File config = new File(this.directory + "/" + this.filename);
 		logger.info("Resolving file: " + this.filename + " located in " + this.directory + "[" + className + "]");
 		logger.info("Creating/Retrieving configuration file"+ "[" + className + "]");
-		config.createNewFile();
+		if(!config.createNewFile()){
+			logger.error("Creating new file failed..." + "[" + className + "]");
+		}
 		this.configFile = config;
 	}
 	
@@ -206,16 +208,16 @@ public class ConfigurationFileHandler {
 			logger.info("Wrote default configuration into new configuration file" + "[" + className + "]");
 		} catch (JsonGenerationException e) {
 			logger.error("Failed to generate JSON for default configuration");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (JsonMappingException e) {
 			logger.error("Failed to map JSON into default configuration");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (JsonParseException e) {
 			logger.error("Failed to parse JSON into default configuration");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (IOException e) {
 			logger.error("Failed to write JSON into default configuration file");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
