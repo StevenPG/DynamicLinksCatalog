@@ -57,6 +57,7 @@ class App extends Component {
     serverConnected: true,
     showGoodSnack: false,
     showBadSnack: false,
+    clientHasCheckedAuth: false,
   };
 
   // -- Refreshing the page --
@@ -319,6 +320,8 @@ class App extends Component {
   			that.setState({hasValidation: false, isValidated: false})
   			console.log("Error communicating with server file system...");
   		}
+  		// Client has made checks, can now allow window to open
+  		that.setState({clientHasCheckedAuth: true});
   	})
   	.catch((error) => {
   		// failure means server isn't connected
@@ -413,7 +416,7 @@ class App extends Component {
 	              title="Required Authentication Setup, Please Enter New Admin Credentials"
 	              actions={securityActions}
 	              modal={true}
-	              open={!this.state.hasValidation}
+	              open={!this.state.hasValidation && this.state.clientHasCheckedAuth}
 	              contentStyle={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}
 	              repositionOnUpdate={ false }>
 	            <TextField
