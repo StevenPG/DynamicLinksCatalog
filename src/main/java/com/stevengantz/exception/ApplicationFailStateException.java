@@ -16,5 +16,9 @@ public class ApplicationFailStateException extends RuntimeException {
 	public ApplicationFailStateException(String message) {
 		super(message);
 	}
+	
+	public ApplicationFailStateException(Exception e) {
+		super(e.getMessage());
+	}
 
 }

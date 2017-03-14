@@ -96,7 +96,7 @@ public class ConfigurationFileHandler {
 			} catch (IOException e) {
 				logger.error("Configuration failed to write to file..." + "[" + className + "]");
 				logger.error(e.getMessage());
-				throw new ApplicationFailStateException(e.getMessage());
+				throw new ApplicationFailStateException(e);
 			}
 			return configFile;
 		}
@@ -115,7 +115,7 @@ public class ConfigurationFileHandler {
 			} catch (IOException e) {
 				logger.error("Failed to read incoming POSTed json");
 				logger.error(e.getMessage());
-				throw new ApplicationFailStateException(e.getMessage());
+				throw new ApplicationFailStateException(e);
 			}
 		} else {
 			try {
@@ -133,7 +133,7 @@ public class ConfigurationFileHandler {
 			} catch (IOException e) {
 				logger.error("Failed to read incoming POSTed json");
 				logger.error(e.getMessage());
-				throw new ApplicationFailStateException(e.getMessage());
+				throw new ApplicationFailStateException(e);
 			}
 		}
 	}
@@ -160,7 +160,7 @@ public class ConfigurationFileHandler {
 			} catch (IOException e) {
 				logger.error("Configuration failed to write to file..." + "[" + className + "]");
 				logger.error(e.getMessage());
-				throw new ApplicationFailStateException(e.getMessage());
+				throw new ApplicationFailStateException(e);
 			}
 			return JSONReaderWriter.readAsString(configFile);
 		}
@@ -213,16 +213,16 @@ public class ConfigurationFileHandler {
 			logger.info("Wrote default configuration into new configuration file" + "[" + className + "]");
 		} catch (JsonGenerationException e) {
 			logger.error("Failed to generate JSON for default configuration");
-			throw new RuntimeException(e);
+			throw new ApplicationFailStateException(e);
 		} catch (JsonMappingException e) {
 			logger.error("Failed to map JSON into default configuration");
-			throw new RuntimeException(e);
+			throw new ApplicationFailStateException(e);
 		} catch (JsonParseException e) {
 			logger.error("Failed to parse JSON into default configuration");
-			throw new RuntimeException(e);
+			throw new ApplicationFailStateException(e);
 		} catch (IOException e) {
 			logger.error("Failed to write JSON into default configuration file");
-			throw new RuntimeException(e);
+			throw new ApplicationFailStateException(e);
 		}
 	}
 	

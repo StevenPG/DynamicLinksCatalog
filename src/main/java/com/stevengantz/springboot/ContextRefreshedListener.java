@@ -37,7 +37,7 @@ public class ContextRefreshedListener implements ApplicationListener<ContextRefr
 			new AuthenticationFileHandler();
 		} catch (IOException e) {
 			logger.error("Exception occurred... " + e.getMessage() + "[" + className + "]");
-			throw new ApplicationFailStateException("Can't build/find auth file... exiting...");
+			throw new ApplicationFailStateException(e);
 		}
 		logger.info("Refreshing Context" + "[" + className + "]");
 	}
