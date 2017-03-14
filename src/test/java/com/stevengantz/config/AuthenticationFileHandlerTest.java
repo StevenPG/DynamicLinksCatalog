@@ -8,29 +8,35 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class AuthenticationFileHandlerTest {
 
-	@Test
-	public void testAuthenticationFileHandler() throws IOException {
+	// File held for each unit test
+	File tmp;
+	
+	@Before
+	public void setUp() throws Exception {
 		// Clear existing file
-		File tmp = new File("dynamiclinks/auth/auth.secret");
+		tmp = new File("dynamiclinks/auth/auth.secret");
 		Files.deleteIfExists(tmp.toPath());
+	}
 
-		new AuthenticationFileHandler();
-
-		// Delete file after
-		assertTrue(tmp.exists());
-
+	@After
+	public void tearDown() throws Exception {
 		Files.deleteIfExists(tmp.toPath());
 	}
 	
 	@Test
+	public void testAuthenticationFileHandler() throws IOException {
+		new AuthenticationFileHandler();
+		assertTrue(tmp.exists());
+	}
+	
+	@Test
 	public void testGetAuthFileLocation() throws IOException {
-		File tmp = new File("dynamiclinks/auth/auth.secret");
-		Files.deleteIfExists(tmp.toPath());
-
 		String path = "dynamiclinks/auth/auth.secret";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 		
@@ -40,47 +46,35 @@ public class AuthenticationFileHandlerTest {
 
 	@Test
 	public void testWriteToFile() throws IOException {
-		File tmp = new File("dynamiclinks/auth/auth.secret");
-		Files.deleteIfExists(tmp.toPath());
-
 		String testString = "TestString";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 		authH.writeToFile(testString.getBytes());
 
 		assertTrue(testString.equals(new String(Files.readAllBytes(tmp.toPath()))));
-		Files.deleteIfExists(tmp.toPath());
 	}
 	
 	@Test
 	public void testWriteToFileWithString() throws IOException {
-		File tmp = new File("dynamiclinks/auth/auth.secret");
-		Files.deleteIfExists(tmp.toPath());
 
 		String testString = "TestString";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 		authH.writeToFileWithString(testString);
 
 		assertTrue(testString.equals(new String(Files.readAllBytes(tmp.toPath()))));
-		Files.deleteIfExists(tmp.toPath());
 	}
 
 	@Test
 	public void testCompareAgainstFile() throws IOException {
-		File tmp = new File("dynamiclinks/auth/auth.secret");
-		Files.deleteIfExists(tmp.toPath());
 
 		String testString = "TestString";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 		authH.writeToFile(testString.getBytes());
 
 		assertTrue(authH.compareAgainstFile(testString));
-		Files.deleteIfExists(tmp.toPath());
 	}
 
 	@Test
 	public void testCompareAgainstFileManualWrite() throws IOException {
-		File tmp = new File("dynamiclinks/auth/auth.secret");
-		Files.deleteIfExists(tmp.toPath());
 
 		String testString = "TestString";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
@@ -90,13 +84,10 @@ public class AuthenticationFileHandlerTest {
 		fos.close();
 
 		assertTrue(authH.compareAgainstFile(testString));
-		Files.deleteIfExists(tmp.toPath());
 	}
 
 	@Test
 	public void testGetFileBytes() throws IOException {
-		File tmp = new File("dynamiclinks/auth/auth.secret");
-		Files.deleteIfExists(tmp.toPath());
 
 		String testString = "TestString";
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
@@ -110,36 +101,29 @@ public class AuthenticationFileHandlerTest {
 		byte [] fileBytes = Files.readAllBytes(tmp.toPath());
 		
 		assertTrue(Arrays.equals(fileBytes, authH.getFileBytes()));
-		Files.deleteIfExists(tmp.toPath());
 	}
 
 	@Test
 	public void testBuildOrLoadFile() throws IOException {
 		// Build and immediately clear existing file
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
-		File tmp = new File("dynamiclinks/auth/auth.secret");
 		Files.deleteIfExists(tmp.toPath());
 
 		authH.buildDirectory();
 		authH.buildOrLoadFile();
 		
-		// Delete file after
 		assertTrue(Files.exists(tmp.toPath()));
-		Files.deleteIfExists(tmp.toPath());
 	}
 
 	@Test
 	public void testBuildDirectory() throws IOException {
 		// Build and immediately clear existing file
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
-		File tmp = new File("dynamiclinks/auth/auth.secret");
 		Files.deleteIfExists(tmp.toPath());
 		
 		authH.buildDirectory();
 
-		// Delete file after
 		assertTrue(Files.exists(new File("dynamiclinks/auth/").toPath()));
-		Files.deleteIfExists(tmp.toPath());
 	}
 	
 	@Test

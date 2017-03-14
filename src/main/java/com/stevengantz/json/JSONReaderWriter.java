@@ -2,6 +2,8 @@ package com.stevengantz.json;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -36,7 +38,15 @@ public class JSONReaderWriter {
 	 * @throws IOException thrown when writing to file fails
 	 */
 	public static JSONConfigurationPOJO read(File json) throws JsonParseException, JsonMappingException, IOException{
-		return new ObjectMapper().readValue(json, JSONConfigurationPOJO.class);
+		List<String> jsonLines = Files.readAllLines(json.toPath());
+		
+		StringBuilder jsonBuilder = new StringBuilder();
+		
+		for(String line : jsonLines){
+			jsonBuilder.append(line);
+		}
+		String jsonString = jsonBuilder.toString();
+		return new ObjectMapper().readValue(jsonString, JSONConfigurationPOJO.class);
 	}
 	
 	public static String readAsString(File configFile) throws IOException{
