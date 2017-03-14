@@ -14,7 +14,7 @@ public class ApplicationFailStateException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
 	public ApplicationFailStateException(String message) {
-		throw new RuntimeException(message);
+		super(message);
 	}
 
 }

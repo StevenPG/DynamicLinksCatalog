@@ -95,6 +95,7 @@ public class ConfigurationFileHandler {
 				
 			} catch (IOException e) {
 				logger.error("Configuration failed to write to file..." + "[" + className + "]");
+				logger.error(e.getMessage());
 				throw new ApplicationFailStateException(e.getMessage());
 			}
 			return configFile;
@@ -113,6 +114,7 @@ public class ConfigurationFileHandler {
 				return JSONReaderWriter.readAsString(this.configFile);
 			} catch (IOException e) {
 				logger.error("Failed to read incoming POSTed json");
+				logger.error(e.getMessage());
 				throw new ApplicationFailStateException(e.getMessage());
 			}
 		} else {
@@ -130,6 +132,7 @@ public class ConfigurationFileHandler {
 				return JSONReaderWriter.readAsString(this.configFile);
 			} catch (IOException e) {
 				logger.error("Failed to read incoming POSTed json");
+				logger.error(e.getMessage());
 				throw new ApplicationFailStateException(e.getMessage());
 			}
 		}
@@ -156,6 +159,7 @@ public class ConfigurationFileHandler {
 				
 			} catch (IOException e) {
 				logger.error("Configuration failed to write to file..." + "[" + className + "]");
+				logger.error(e.getMessage());
 				throw new ApplicationFailStateException(e.getMessage());
 			}
 			return JSONReaderWriter.readAsString(configFile);
@@ -194,6 +198,7 @@ public class ConfigurationFileHandler {
 			JSONReaderWriter.read(this.configFile);
 		} catch (IOException e) {
 			logger.info("Data in configuration file was invalid... Overwriting with default" + "[" + className + "]");
+			logger.error(e.getMessage());
 			return false;
 		}
 		return true;
@@ -208,16 +213,16 @@ public class ConfigurationFileHandler {
 			logger.info("Wrote default configuration into new configuration file" + "[" + className + "]");
 		} catch (JsonGenerationException e) {
 			logger.error("Failed to generate JSON for default configuration");
-			logger.error(e.getMessage());
+			throw new RuntimeException(e);
 		} catch (JsonMappingException e) {
 			logger.error("Failed to map JSON into default configuration");
-			logger.error(e.getMessage());
+			throw new RuntimeException(e);
 		} catch (JsonParseException e) {
 			logger.error("Failed to parse JSON into default configuration");
-			logger.error(e.getMessage());
+			throw new RuntimeException(e);
 		} catch (IOException e) {
 			logger.error("Failed to write JSON into default configuration file");
-			logger.error(e.getMessage());
+			throw new RuntimeException(e);
 		}
 	}
 	

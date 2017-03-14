@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.stevengantz.config.AuthenticationFileHandler;
 import com.stevengantz.config.ConfigurationFileHandler;
+import com.stevengantz.exception.ApplicationFailStateException;
 
 /**
  * Listener that runs methods on initial startup of the Spring Boot process
@@ -35,7 +36,8 @@ public class ContextRefreshedListener implements ApplicationListener<ContextRefr
 			new ConfigurationFileHandler().getConfigurationFile();
 			new AuthenticationFileHandler();
 		} catch (IOException e) {
-			throw new RuntimeException("Can't build/find auth file... exiting...");
+			logger.error("Exception occurred... " + e.getMessage() + "[" + className + "]");
+			throw new ApplicationFailStateException("Can't build/find auth file... exiting...");
 		}
 		logger.info("Refreshing Context" + "[" + className + "]");
 	}
