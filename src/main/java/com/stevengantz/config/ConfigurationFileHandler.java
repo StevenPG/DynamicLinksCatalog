@@ -198,8 +198,7 @@ public class ConfigurationFileHandler {
 			JSONReaderWriter.read(this.configFile);
 		} catch (IOException e) {
 			logger.info("Data in configuration file was invalid... Overwriting with default" + "[" + className + "]");
-			logger.error(e.getMessage());
-			return false;
+			throw new ApplicationFailStateException(e);
 		}
 		return true;
 	}
