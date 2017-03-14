@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.stevengantz.springboot;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +33,6 @@ public class CustomErrorController implements ErrorController {
 	 */
 	@Override
 	public String getErrorPath() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
