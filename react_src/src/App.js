@@ -148,6 +148,10 @@ class App extends Component {
   // -- End Settings functions --
 
   // Handle credential creation
+  handleAuthCancel = () => {
+  	this.setState({openAuth: false})
+  }
+
   addCreds = () => {
   	var that = this;
   	axios.post(window.location.href + 'setup-security', 
@@ -357,10 +361,14 @@ class App extends Component {
 
     const authActions = [
     	<FlatButton
-        label="Authenticate"
-        primary={true}
-        onTouchTap={this.checkCreds}
-      />
+        	label="Authenticate"
+        	primary={true}
+        	onTouchTap={this.checkCreds}
+      	/>,
+      	<FlatButton
+      		label="Cancel"
+      		onTouchTap={this.handleAuthCancel}
+      	/>
     ]
     
     var currentFavicon = this.state.json['config']['PageFavicon'];
@@ -482,7 +490,7 @@ class App extends Component {
           <CardList data={this.buildCardArray}/>
         </div>
         <div className="footer">
-          <p>DynamicLinksCatalog V1.3.2; Steven Gantz, MIT (c) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
+          <p>DynamicLinksCatalog V1.3.3; Steven Gantz, MIT (c) 2017. <a href="https://gitlab.com/StevenPG/DynamicLinksCatalog">Repository</a></p>
         </div>
       </div>
     );
