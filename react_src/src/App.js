@@ -107,6 +107,26 @@ class App extends Component {
     this.handleClose();
   }
 
+  // --- Enter button functionality for dialogs ---
+  handleTextFieldKeyDownAuthSet = event => {
+  	switch(event.key){
+  		case 'Enter':
+  			this.addCreds();
+  			break
+  		default: break
+  	}
+  }
+
+  handleTextFieldKeyDownCredCheck = event => {
+	switch(event.key){
+  		case 'Enter':
+  			this.checkCreds();
+  			break
+  		default: break
+  	}
+  }
+  // --- End enter button functions ---
+
   // --- Snackbar functions ---
   // http://www.material-ui.com/#/components/snackbar
   openGoodCredsSnack = () => {
@@ -225,6 +245,18 @@ class App extends Component {
 		var tmpCardArray = [];
 		for(var i = 0; i < this.state.json['config']['cards'].length; i++){
 			var currentCard = this.state.json['config']['cards'][i];
+			// Build array of buttons for CardActions component
+			var buttonArray = [];
+			for( var c = 0; c < currentCard['Buttons'].length; c++) {
+				buttonArray.push(
+					<FlatButton
+						key={c}
+						label={currentCard['Buttons'][c]['buttontext']}
+						href={currentCard['Buttons'][c]['linkURL']}
+					/>
+				);
+			}
+
 			//this.state.cardArray.push(
 			tmpCardArray.push(
 				<div className="Card" key={i}>
@@ -238,14 +270,7 @@ class App extends Component {
 		                  showExpandableButton={true}
 		                />
 		                <CardActions>
-		                  <FlatButton 
-		                  	label={currentCard['Buttons'][0]['buttontext']} 
-		                  	href={currentCard['Buttons'][0]['linkURL']}
-		                  	/>
-		                  <FlatButton 
-		                  	label={currentCard['Buttons'][1]['buttontext']} 
-		                  	href={currentCard['Buttons'][1]['linkURL']}
-		                  	/>
+		                  {buttonArray}
 		                </CardActions>
 		                <CardText expandable={true}>
 		                  {currentCard['ExpandedText']}
@@ -432,6 +457,7 @@ class App extends Component {
 	                fullWidth={true}
 	                hintText="Enter a username here"
 	                floatingLabelText="Username"
+	                onKeyDown={this.handleTextFieldKeyDownAuthSet}
 	            />
 	            <TextField
 	                id="password"
@@ -439,6 +465,7 @@ class App extends Component {
 	                fullWidth={true}
 	                hintText="Enter a password here"
 	                floatingLabelText="Password"
+	                onKeyDown={this.handleTextFieldKeyDownAuthSet}
 	            />
 	          </Dialog>
 	      </MuiThemeProvider>
@@ -455,6 +482,7 @@ class App extends Component {
 	                fullWidth={true}
 	                hintText="Enter a username here"
 	                floatingLabelText="Username"
+	                onKeyDown={this.handleTextFieldKeyDownCredCheck}
 	            />
 	            <TextField
 	                id="check_password"
@@ -462,6 +490,7 @@ class App extends Component {
 	                fullWidth={true}
 	                hintText="Enter a password here"
 	                floatingLabelText="Password"
+	                onKeyDown={this.handleTextFieldKeyDownCredCheck}
 	            />
 	          </Dialog>
           </MuiThemeProvider>
