@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.junit.After;
@@ -47,7 +46,7 @@ public class AuthenticationFileHandlerTest {
 	}
 
 	@Test
-	public void testWriteToFile() throws IOException, NoSuchAlgorithmException {
+	public void testWriteToFile() throws Exception {
 		byte[] hashedTest = MessageDigest.getInstance("SHA-256").digest("TestString".getBytes());
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 		authH.writeToFile("TestString".getBytes());
@@ -56,7 +55,7 @@ public class AuthenticationFileHandlerTest {
 	}
 	
 	@Test
-	public void testWriteToFileWithString() throws IOException, NoSuchAlgorithmException {
+	public void testWriteToFileWithString() throws Exception {
 
 		byte[] hashedTest = MessageDigest.getInstance("SHA-256").digest("TestString".getBytes());
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
@@ -66,7 +65,7 @@ public class AuthenticationFileHandlerTest {
 	}
 
 	@Test
-	public void testCompareAgainstFile() throws IOException, NoSuchAlgorithmException {
+	public void testCompareAgainstFile() throws Exception {
 
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();
 		authH.writeToFileWithString("TestString");
@@ -75,7 +74,7 @@ public class AuthenticationFileHandlerTest {
 	}
 
 	@Test
-	public void testCompareAgainstFileManualWrite() throws IOException, NoSuchAlgorithmException {
+	public void testCompareAgainstFileManualWrite() throws Exception {
 
 		byte[] hashedTest = MessageDigest.getInstance("SHA-256").digest("TestString".getBytes());
 		AuthenticationFileHandler authH = new AuthenticationFileHandler();

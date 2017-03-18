@@ -28,6 +28,8 @@ public class AuthenticationFileHandler {
 	 */
 	protected String directory = "dynamiclinks/auth";
 	
+	private final String HASHING_ALGO = "SHA-256";
+	
 	/**
 	 * Name of security file
 	 */
@@ -70,9 +72,9 @@ public class AuthenticationFileHandler {
 	 * @throws IOException thrown if unable to write into file
 	 * @throws NoSuchAlgorithmException thrown if SHA-256 is not found
 	 */
-	public void writeToFile(byte[] incomingBytes) throws IOException, NoSuchAlgorithmException {
+	public void writeToFile(byte[] incomingBytes) throws Exception {
 		FileOutputStream fos = new FileOutputStream(this.authFile);
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		MessageDigest digest = MessageDigest.getInstance(HASHING_ALGO);
 		byte [] hash = digest.digest(incomingBytes);
 		fos.write(hash);
 		fos.close();
@@ -83,10 +85,10 @@ public class AuthenticationFileHandler {
 	 * @throws IOException thrown if unable to write into file
 	 * @throws NoSuchAlgorithmException thrown if SHA-256 is not found
 	 */
-	public void writeToFileWithString(String incomingString) throws IOException, NoSuchAlgorithmException {
+	public void writeToFileWithString(String incomingString) throws Exception {
 		FileOutputStream fos = new FileOutputStream(this.authFile);
 		
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		MessageDigest digest = MessageDigest.getInstance(HASHING_ALGO);
 		byte [] hash = digest.digest(incomingString.getBytes(StandardCharsets.UTF_8));
 		fos.write(hash);
 		fos.close();
@@ -97,8 +99,8 @@ public class AuthenticationFileHandler {
 	 * @throws IOException thrown if unable to read bytes from file
 	 * @throws NoSuchAlgorithmException thrown if SHA-256 is not found
 	 */
-	public boolean compareAgainstFile(String in) throws IOException, NoSuchAlgorithmException {
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	public boolean compareAgainstFile(String in) throws Exception {
+		MessageDigest digest = MessageDigest.getInstance(HASHING_ALGO);
 		byte [] hash = digest.digest(in.getBytes(StandardCharsets.UTF_8));
 		return Arrays.equals(hash, getFileBytes());
 	}
